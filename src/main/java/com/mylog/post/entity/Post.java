@@ -27,7 +27,7 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String contentHtml;
 
-    private int like;
+    private int likes;
 //    private HashTag hashTag;
 //    @ManyToOne
 //    private Member member;

@@ -18,5 +18,5 @@ public class PostDto {
     private String subject;
     private String content;
     private String contentHtml;
-    private int like;
+    private int likes;
 }

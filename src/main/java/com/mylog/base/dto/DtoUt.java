@@ -9,9 +9,10 @@ public class DtoUt {
                 .id(post.getId())
                 .createDate(post.getCreateDate())
                 .updateDate(post.getUpdateDate())
+                .subject(post.getSubject())
                 .content(post.getContent())
                 .contentHtml(post.getContentHtml())
-                .like(post.getLike())
+                .likes(post.getLikes())
                 .build();
     }
 }

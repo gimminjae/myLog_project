@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.lang.reflect.Member;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String contentHtml;
 
-    private int likes;
+//    private Set<Member> likes;
 //    private HashTag hashTag;
 //    @ManyToOne
 //    private Member member;

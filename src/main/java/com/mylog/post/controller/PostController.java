@@ -54,4 +54,23 @@ public class PostController {
 
         return "post/detail";
     }
+
+    //글 수정
+    @GetMapping("/modify/{id}")
+    public String postModify(@PathVariable("id") long id, Model model) {
+        PostDto postDto = postService.getById(id);
+
+        model.addAttribute("post", postDto);
+        return "post/modify";
+    }
+
+    //글 수정 처리
+    @PostMapping("/modify/{id}")
+    public String postModify(@PathVariable("id") long id,
+                             @RequestParam String subject, @RequestParam String tagString, @RequestParam String content) {
+        PostDto postDto = postService.getById(id);
+        postService.modify(postDto, subject, content);
+
+        return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 수정되었습니다!"));
+    }
 }

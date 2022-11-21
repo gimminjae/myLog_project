@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>myLog</title>
+</head>
+<body>
+<!-- 제이쿼리 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- 테일윈드 불러오기 -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!--데이지UI 불러오기 -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
+
+<div th:replace="common/toastEditorFragment :: editorFragment"></div>
+
+<script src="/common.js"></script>
+
+<script th:inline="javascript">
+    const params = /*[[ ${param} ]]*/ null;
+
+    if (params.msg) {
+        successModal(params.msg[0]);
+    }
+
+    if (params.errorMsg) {
+        errorModal(params.errorMsg[0]);
+    }
+</script>
+
+
+<form th:action="@{|/post/modify/${post.id}|}" method="post" onsubmit="ArticleSave__submitForm(this); return false;">
+    <input type="hidden" name="content" id="content"/>
+    <!--제목-->
+    <div class="m-2">
+        <input type="text" placeholder="제목을 입력하세요" name="subject" id="subject" th:field="*{post.subject}" class="input input-bordered input-info w-full max-w-xs mx-1" />
+        <!--태그-->
+        <input type="text" name="tagString" id="tagString" placeholder="태그를 입력하세요" class="input input-bordered input-info w-full max-w-xs mx-1" />
+    </div>
+    <!--내용-->
+    <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh - 100px)">
+        <script type="text/x-template">[[${post.content}]]</script>
+    </div>
+
+    <button type="submit">저장하기</button>
+</form>
+</body>
+</html>

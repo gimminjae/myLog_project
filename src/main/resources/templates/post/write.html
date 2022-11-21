@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>myLog</title>
+</head>
+<body>
+<!-- 테일윈드 불러오기 -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!--데이지UI 불러오기 -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
+<form th:action="@{/post/write}">
+    <!--제목-->
+    <div class="m-2">
+        <input type="text" placeholder="제목을 입력하세요" class="input input-bordered input-info w-full max-w-xs" />
+    </div>
+    <!--태그-->
+    <div class="m-2">
+        <input style="width: 100%;" type="text" placeholder="태그를 입력하세요" class="input input-bordered input-info w-full max-w-xs" />
+    </div>
+    <!--내용-->
+   <div>
+
+    </div>
+</form>
+</body>
+</html>

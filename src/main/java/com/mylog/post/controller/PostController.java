@@ -1,6 +1,7 @@
 package com.mylog.post.controller;
 
 import com.mylog.post.dto.PostDto;
+import com.mylog.post.form.PostForm;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -23,5 +25,10 @@ public class PostController {
 
         model.addAttribute("postList", postDtos);
         return "post/list";
+    }
+    @GetMapping("/write")
+    public String postWrite(Principal principal, PostForm postForm) {
+
+        return "post/write";
     }
 }

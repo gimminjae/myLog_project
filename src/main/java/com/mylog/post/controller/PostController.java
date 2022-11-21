@@ -73,4 +73,13 @@ public class PostController {
 
         return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 수정되었습니다!"));
     }
+
+    //글 삭제 처리
+    @GetMapping("/delete/{id}")
+    public String postDelete(@PathVariable("id") long id) {
+        PostDto postDto = postService.getById(id);
+        postService.delete(postDto);
+
+        return "redirect:/post/list?msg=%s".formatted(Ut.url.encode("글이 삭제되었습니다!"));
+    }
 }

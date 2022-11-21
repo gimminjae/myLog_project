@@ -9,7 +9,8 @@
         <div style="float: right">
             <ul class="flex gap-2">
                 <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/modify/${post.id}|}">수정</a></li>
-                <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/modify/${post.id}|}">삭제</a></li>
+                <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/delete/${post.id}|}"
+                onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;">삭제</a></li>
             </ul>
         </div>
     </div>

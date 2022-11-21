@@ -1,0 +1,24 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <div th:replace="common/toastEditorFragment :: editorFragment"></div>
+    <div class="mb-3">
+        <p class="text-5xl">[[${post.subject}]]</p>
+    </div>
+    <div class="justify-between flex">
+        <div><p>by 글쓴이</p></div>
+        <div style="float: right">
+            <ul class="flex gap-2">
+                <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/modify/${post.id}|}">수정</a></li>
+                <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/modify/${post.id}|}">삭제</a></li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="toast-ui-viewer">
+            <script type="text/x-template">
+                [[${post.content}]]
+            </script>
+        </div>
+    </div>
+</div>
+</html>

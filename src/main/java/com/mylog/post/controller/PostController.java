@@ -6,13 +6,13 @@ import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-//git test
+
 @Controller
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -27,8 +27,16 @@ public class PostController {
         return "post/list";
     }
     @GetMapping("/write")
-    public String postWrite(Principal principal, PostForm postForm) {
+    public String postWrite(PostForm postForm) {
 
         return "post/write";
+    }
+    @PostMapping("/write")
+    @ResponseBody
+    public String postWrite(@Valid PostForm postForm, BindingResult bindingResult) {
+
+        postService.create(postForm.getSubject(), postForm.getContent());
+
+        return "success";
     }
 }

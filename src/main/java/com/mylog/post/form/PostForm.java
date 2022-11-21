@@ -4,15 +4,15 @@ import lombok.Data;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 public class PostForm {
-    @NotBlank
+    @NotEmpty(message = "제목을 입력하세요")
     private String subject;
-    @NotBlank
+
+    @NotEmpty(message = "내용을 입력하세요")
     private String content;
-    @NotBlank
-    private String contentHtml;
-    @NotBlank
-    private String postTagContents;
+
+    private String tagString;
 }

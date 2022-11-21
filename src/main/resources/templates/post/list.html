@@ -1,5 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    postlist2
+    <div th:each="post : ${postList}">
+        <a href="">[[${post.subject}]]</a>
+    </div>
 </div>
 </html>

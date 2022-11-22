@@ -78,4 +78,12 @@ public class MemberService {
 
         memberRepository.delete(member);
     }
+
+    //비밀번호 변경
+    public void modifyPassword(MemberDto memberDto, String password) {
+        Member member = getByDto(memberDto);
+
+        member.setPassword(password);
+        memberRepository.save(member);
+    }
 }

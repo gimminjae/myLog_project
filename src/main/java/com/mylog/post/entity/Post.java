@@ -1,6 +1,7 @@
 package com.mylog.post.entity;
 
 import com.mylog.base.entity.BaseEntity;
+import com.mylog.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import java.lang.reflect.Member;
 import java.util.Set;
 
 @Entity
@@ -28,8 +29,9 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String contentHtml;
 
+//    @ManyToMany
 //    private Set<Member> likes;
 //    private HashTag hashTag;
-//    @ManyToOne
-//    private Member member;
+    @ManyToOne
+    private Member member;
 }

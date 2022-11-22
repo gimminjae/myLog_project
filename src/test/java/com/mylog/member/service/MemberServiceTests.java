@@ -12,6 +12,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -47,4 +49,23 @@ public class MemberServiceTests {
         List<MemberDto> memberDtoList = memberService.getAll();
         assertThat(memberDtoList.size()).isEqualTo(1);
     }
+    @Test
+    @DisplayName("회원 조회(by email, username, id)")
+    void test2() {
+        String username = "user1";
+        String password = "user1";
+        String email = "test12@test.com";
+        String nickname = "user1";
+
+        memberService.create(username, password, email, nickname);
+
+        MemberDto memberDto1 = memberService.getById(1);
+        MemberDto memberDto2 = memberService.getByUsername(username);
+        MemberDto memberDto3 = memberService.getByEmail(email);
+
+        assertThat(memberDto1.getNickname()).isEqualTo(nickname);
+        assertThat(memberDto2.getNickname()).isEqualTo(nickname);
+        assertThat(memberDto3.getNickname()).isEqualTo(nickname);
+    }
+
 }

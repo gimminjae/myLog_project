@@ -25,6 +25,19 @@ public class DtoUt {
                 .nickname(member.getNickname())
                 .username(member.getUsername())
                 .email(member.getEmail())
+                .password(member.getPassword())
+                .build();
+    }
+
+    public static Member toEntity(MemberDto memberDto) {
+        return Member.builder()
+                .id(memberDto.getId())
+                .createDate(memberDto.getCreateDate())
+                .updateDate(memberDto.getUpdateDate())
+                .nickname(memberDto.getNickname())
+                .username(memberDto.getUsername())
+                .email(memberDto.getEmail())
+                .password(memberDto.getPassword())
                 .build();
     }
 }

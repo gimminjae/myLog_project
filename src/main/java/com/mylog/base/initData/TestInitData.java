@@ -18,9 +18,11 @@ public class TestInitData {
     ) {
         return args -> {
             memberService.create("user1", "user1", "min356812@naver.com", "minjjai");
-            postService.create("subject1", "content1");
-            postService.create("subject2", "content2");
-            postService.create("subject3", "content3");
+
+            MemberDto memberDto = memberService.getById(1L);
+            postService.create("subject1", "content1", memberDto);
+            postService.create("subject2", "content2", memberDto);
+            postService.create("subject3", "content3", memberDto);
         };
     }
 }

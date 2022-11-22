@@ -4,6 +4,7 @@ import com.mylog.base.dto.DtoUt;
 import com.mylog.base.dto.RsData;
 import com.mylog.base.exception.DataNotFoundException;
 import com.mylog.base.util.CommonUtil;
+import com.mylog.member.dto.MemberDto;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.entity.Post;
 import com.mylog.post.repository.PostRepository;
@@ -20,6 +21,18 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
 
+    public PostDto create(String subject, String content, MemberDto memberDto) {
+        Post post = Post.builder()
+                .createDate(LocalDateTime.now())
+                .subject(subject)
+                .content(content)
+                .contentHtml(CommonUtil.markdown(content))
+                .member(DtoUt.toEntity(memberDto))
+                .build();
+        postRepository.save(post);
+
+        return DtoUt.toDto(post);
+    }
     public PostDto create(String subject, String content) {
         Post post = Post.builder()
                 .createDate(LocalDateTime.now())

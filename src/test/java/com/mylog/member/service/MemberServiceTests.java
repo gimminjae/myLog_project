@@ -29,6 +29,12 @@ public class MemberServiceTests {
     void beforeEach() {
         // 트랜잭션 시작
         status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        String username = "user1";
+        String password = "user1";
+        String email = "test12@test.com";
+        String nickname = "user1";
+
+        memberService.create(username, password, email, nickname);
     }
 
     @AfterEach
@@ -39,12 +45,6 @@ public class MemberServiceTests {
     @Test
     @DisplayName("회원 생성")
     void test1() {
-        String username = "user1";
-        String password = "user1";
-        String email = "test12@test.com";
-        String nickname = "user1";
-
-        MemberDto memberDto = memberService.create(username, password, email, nickname);
 
         List<MemberDto> memberDtoList = memberService.getAll();
         assertThat(memberDtoList.size()).isEqualTo(1);
@@ -52,30 +52,18 @@ public class MemberServiceTests {
     @Test
     @DisplayName("회원 조회(by email, username, id)")
     void test2() {
-        String username = "user1";
-        String password = "user1";
-        String email = "test12@test.com";
-        String nickname = "user1";
-
-        memberService.create(username, password, email, nickname);
 
         MemberDto memberDto1 = memberService.getById(1);
-        MemberDto memberDto2 = memberService.getByUsername(username);
-        MemberDto memberDto3 = memberService.getByEmail(email);
+        MemberDto memberDto2 = memberService.getByUsername("user1");
+        MemberDto memberDto3 = memberService.getByEmail("test12@test.com");
 
-        assertThat(memberDto1.getNickname()).isEqualTo(nickname);
-        assertThat(memberDto2.getNickname()).isEqualTo(nickname);
-        assertThat(memberDto3.getNickname()).isEqualTo(nickname);
+        assertThat(memberDto1.getNickname()).isEqualTo("user1");
+        assertThat(memberDto2.getNickname()).isEqualTo("user1");
+        assertThat(memberDto3.getNickname()).isEqualTo("user1");
     }
     @Test
     @DisplayName("회원 정보 수정(email, nickname 등)")
     void test3() {
-        String username = "user1";
-        String password = "user1";
-        String email = "test12@test.com";
-        String nickname = "user1";
-
-        memberService.create(username, password, email, nickname);
 
         MemberDto memberDto = memberService.getById(1);
         memberService.modify(memberDto, "modifyTest@test.com", "modifyUser");
@@ -87,16 +75,10 @@ public class MemberServiceTests {
     @Test
     @DisplayName("회원 삭제")
     void test4() {
-        String username = "user1";
-        String password = "user1";
-        String email = "test12@test.com";
-        String nickname = "user1";
-
-        MemberDto memberDto = memberService.create(username, password, email, nickname);
-
         List<MemberDto> memberDtoList = memberService.getAll();
         assertThat(memberDtoList.size()).isEqualTo(1);
 
+        MemberDto memberDto = memberService.getById(1);
         memberService.delete(memberDto);
 
         memberDtoList = memberService.getAll();

@@ -13,7 +13,8 @@
                     <span class="badge badge-xs badge-primary indicator-item"></span>
                 </div>
             </button>
-            <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+            <a sec:authorize="isAnonymous()" class="btn btn-outline btn-sm mx-2" th:href="@{/member/login}">로그인</a>
+            <a sec:authorize="isAnonymous()" class="btn btn-outline btn-sm mx-2" th:href="@{/member/join}">회원가입</a>
             <div class="dropdown dropdown-end" sec:authorize="isAuthenticated()">
                 <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">

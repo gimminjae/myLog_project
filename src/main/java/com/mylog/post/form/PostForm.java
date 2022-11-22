@@ -6,7 +6,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter
 public class PostForm {
     @NotEmpty(message = "제목을 입력하세요")
     private String subject;

@@ -31,15 +31,15 @@ public class PostController {
 
     //글 작성 폼
     @GetMapping("/write")
-    public String postWrite(PostForm postForm) {
+    public String postWrite() {
         return "post/write";
     }
 
     //글 작성 처리
     @PostMapping("/write")
-    public String postWrite(@Valid PostForm postForm, BindingResult bindingResult) {
+    public String postWrite(@RequestParam String subject, @RequestParam String content, @RequestParam String tagString) {
 
-        PostDto postDto = postService.create(postForm.getSubject(), postForm.getContent());
+        PostDto postDto = postService.create(subject, content);
 
         return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 작성되었습니다!"));
     }

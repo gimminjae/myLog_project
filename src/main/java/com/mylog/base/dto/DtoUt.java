@@ -12,7 +12,7 @@ public class DtoUt {
                 .subject(post.getSubject())
                 .content(post.getContent())
                 .contentHtml(post.getContentHtml())
-                .likes(post.getLikes())
+//                .likes(post.getLikes())
                 .build();
     }
 }

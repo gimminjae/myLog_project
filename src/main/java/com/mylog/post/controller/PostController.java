@@ -32,7 +32,6 @@ public class PostController {
     //글 작성 폼
     @GetMapping("/write")
     public String postWrite(PostForm postForm) {
-
         return "post/write";
     }
 

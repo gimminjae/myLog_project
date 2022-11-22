@@ -6,6 +6,7 @@ import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
 import com.mylog.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
     //회원 생성
@@ -21,7 +23,7 @@ public class MemberService {
         Member member = Member.builder()
                 .nickname(nickname)
                 .username(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .email(email)
                 .build();
         memberRepository.save(member);
@@ -83,7 +85,8 @@ public class MemberService {
     public void modifyPassword(MemberDto memberDto, String password) {
         Member member = getByDto(memberDto);
 
-        member.setPassword(password);
+        member.setPassword(passwordEncoder.encode(password));
+
         memberRepository.save(member);
     }
 }

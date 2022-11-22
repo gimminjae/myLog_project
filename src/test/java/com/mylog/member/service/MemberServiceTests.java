@@ -84,5 +84,24 @@ public class MemberServiceTests {
         assertThat(memberDto.getNickname()).isEqualTo("modifyUser");
         assertThat(memberDto.getEmail()).isEqualTo("modifyTest@test.com");
     }
+    @Test
+    @DisplayName("회원 삭제")
+    void test4() {
+        String username = "user1";
+        String password = "user1";
+        String email = "test12@test.com";
+        String nickname = "user1";
+
+        MemberDto memberDto = memberService.create(username, password, email, nickname);
+
+        List<MemberDto> memberDtoList = memberService.getAll();
+        assertThat(memberDtoList.size()).isEqualTo(1);
+
+        memberService.delete(memberDto);
+
+        memberDtoList = memberService.getAll();
+        assertThat(memberDtoList.size()).isEqualTo(0);
+    }
+
 
 }

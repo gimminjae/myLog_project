@@ -1,5 +1,7 @@
 package com.mylog.base.initData;
 
+import com.mylog.member.dto.MemberDto;
+import com.mylog.member.service.MemberService;
 import com.mylog.post.service.PostService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -11,9 +13,11 @@ import org.springframework.context.annotation.Profile;
 public class TestInitData {
     @Bean
     CommandLineRunner init(
-            PostService postService
+            PostService postService,
+            MemberService memberService
     ) {
         return args -> {
+            memberService.create("user1", "user1", "min356812@naver.com", "minjjai");
             postService.create("subject1", "content1");
             postService.create("subject2", "content2");
             postService.create("subject3", "content3");

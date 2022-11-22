@@ -29,6 +29,7 @@ public class MemberServiceTests {
     void beforeEach() {
         // 트랜잭션 시작
         status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
         String username = "user1";
         String password = "user1";
         String email = "test12@test.com";
@@ -53,11 +54,9 @@ public class MemberServiceTests {
     @DisplayName("회원 조회(by email, username, id)")
     void test2() {
 
-        MemberDto memberDto1 = memberService.getById(1);
         MemberDto memberDto2 = memberService.getByUsername("user1");
         MemberDto memberDto3 = memberService.getByEmail("test12@test.com");
 
-        assertThat(memberDto1.getNickname()).isEqualTo("user1");
         assertThat(memberDto2.getNickname()).isEqualTo("user1");
         assertThat(memberDto3.getNickname()).isEqualTo("user1");
     }
@@ -65,10 +64,10 @@ public class MemberServiceTests {
     @DisplayName("회원 정보 수정(email, nickname 등)")
     void test3() {
 
-        MemberDto memberDto = memberService.getById(1);
+        MemberDto memberDto = memberService.getByUsername("user1");
         memberService.modify(memberDto, "modifyTest@test.com", "modifyUser");
 
-        memberDto = memberService.getById(1);
+        memberDto = memberService.getByUsername("user1");
         assertThat(memberDto.getNickname()).isEqualTo("modifyUser");
         assertThat(memberDto.getEmail()).isEqualTo("modifyTest@test.com");
     }
@@ -78,7 +77,7 @@ public class MemberServiceTests {
         List<MemberDto> memberDtoList = memberService.getAll();
         assertThat(memberDtoList.size()).isEqualTo(1);
 
-        MemberDto memberDto = memberService.getById(1);
+        MemberDto memberDto = memberService.getByUsername("user1");
         memberService.delete(memberDto);
 
         memberDtoList = memberService.getAll();

@@ -7,13 +7,14 @@
             <div class="form-control">
                 <input type="text" placeholder="Search" class="input input-bordered" />
             </div>
-            <button class="btn btn-ghost btn-circle">
+            <button class="btn btn-ghost btn-circle" sec:authorize="isAuthenticated()">
                 <div class="indicator">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
                     <span class="badge badge-xs badge-primary indicator-item"></span>
                 </div>
             </button>
-            <div class="dropdown dropdown-end">
+            <a sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+            <div class="dropdown dropdown-end" sec:authorize="isAuthenticated()">
                 <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
                         <img src="https://placeimg.com/80/80/people" />
@@ -23,7 +24,7 @@
                     <li><a th:href="@{/member}">마이페이지</a></li>
                     <li><a th:href="@{/post/write}">새 글 작성</a></li>
                     <li><a th:href="@{/setting}">설정</a></li>
-                    <li><a>Logout</a></li>
+                    <li><a th:href="@{/user/logout}">로그아웃</a></li>
                 </ul>
             </div>
         </div>

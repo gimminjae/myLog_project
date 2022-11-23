@@ -14,6 +14,8 @@ public class DtoUt {
                 .subject(post.getSubject())
                 .content(post.getContent())
                 .contentHtml(post.getContentHtml())
+                .memberId(post.getMember().getId())
+                .memberNickname(post.getMember().getNickname())
 //                .likes(post.getLikes())
                 .build();
     }

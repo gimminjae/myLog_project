@@ -5,7 +5,7 @@
         <p class="text-5xl">[[${post.subject}]]</p>
     </div>
     <div class="justify-between flex">
-        <div><p>by 글쓴이</p></div>
+        <div><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/member/${post.memberId}|}">by [[${post.memberNickname}]]</a></div>
         <div style="float: right">
             <ul class="flex gap-2">
                 <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/modify/${post.id}|}">수정</a></li>

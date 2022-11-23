@@ -69,6 +69,7 @@ public class PostService {
 
         post.setSubject(subject);
         post.setContent(content);
+        post.setUpdateDate(LocalDateTime.now());
         post.setContentHtml(CommonUtil.markdown(content));
         postRepository.save(post);
 

@@ -1,6 +1,8 @@
 package com.mylog.post.controller;
 
 import com.mylog.base.util.Ut;
+import com.mylog.member.dto.MemberDto;
+import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
 //import com.mylog.post.form.PostForm;
 import com.mylog.post.service.PostService;
@@ -19,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-
+    private final MemberService memberService;
     //글 목록, 메인 페이지, 시작 페이지
     @GetMapping("/list")
     public String postList(Model model) {
@@ -37,11 +39,13 @@ public class PostController {
 
     //글 작성 처리
     @PostMapping("/write")
-    public String postWrite(@RequestParam("subject") String subject,
+    public String postWrite(Principal principal,
+                            @RequestParam("subject") String subject,
                             @RequestParam("content") String content,
                             @RequestParam("tagString") String tagString) {
 
-        PostDto postDto = postService.create(subject, content);
+        MemberDto memberDto = memberService.getByUsername(principal.getName());
+        PostDto postDto = postService.create(subject, content, memberDto);
 
         return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 작성되었습니다!"));
     }

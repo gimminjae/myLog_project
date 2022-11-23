@@ -1,40 +1,39 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-  <form th:action="@{/member/join}" th:object="${memberForm}" method="post">
-    <div th:fragment="formErrorsFragment" class="alert alert-danger"
-         role="alert" th:if="${#fields.hasAnyErrors()}">
-      <div th:each="err : ${#fields.allErrors()}">
-        <div th:text="${err}"></div>
-      </div>
-    </div>
-    <div>
-      <p>아이디</p>
-      <input class="input" type="text" th:field="*{username}" name="username">
-    </div>
-    <div>
-      <p>비밀번호</p>
-      <input class="input" type="password" th:field="*{password1}" name="password1">
-    </div>
-    <div>
-      <p>비밀번호 확인</p>
-      <input class="input" type="password" th:field="*{password2}" name="password2">
-    </div>
-    <div>
-      <p>이메일</p>
-      <input class="input" type="email" th:field="*{email}" name="email">
-    </div>
-    <div>
-      <p>닉네임</p>
-      <input type="text" th:field="*{nickname}" name="nickname">
-    </div>
-    <button class="btn btn-primary">회원가입</button>
-  </form>
+    <section class="section section-login flex-grow flex items-center justify-center">
+        <form th:action="@{/member/join}" th:object="${memberForm}" method="post" style="width: 50%;">
+            <div th:replace="common/form_errors :: formErrorsFragment"></div>
+            <div class="my-2">
+                <input style="width: 100%;" class="input input-bordered input-info" type="text" th:field="*{username}" name="username"
+                       placeholder="아이디">
+            </div>
+            <div class="my-2">
+                <input style="width: 100%;" class="input input-bordered input-info" type="password" th:field="*{password1}" name="password1"
+                       placeholder="비밀번호">
+            </div>
+            <div class="my-2">
+                <input style="width: 100%;" class="input input-bordered input-info" type="password" th:field="*{password2}" name="password2"
+                       placeholder="비밀번호 확인">
+            </div>
+            <div class="my-2">
+                <input style="width: 100%;" class="input input-bordered input-info" type="email" th:field="*{email}" name="email"
+                       placeholder="이메일">
+            </div>
+            <div class="my-2">
+                <input style="width: 100%;" class="input input-bordered input-info" type="text" th:field="*{nickname}" name="nickname"
+                       placeholder="닉네임">
+            </div>
+            <div class="my-2">
+                <button class="btn btn-primary" style="width: 100%;">회원가입</button>
+            </div>
+        </form>
+    </section>
 </div>
 <script th:inline="javascript">
     const errors = [[${#fields.allErrors()}]];
 
-    errors.forEach( function (error) {
-      warningModal(error);
+    errors.forEach(function (error) {
+        warningModal(error);
     });
 </script>
 </html>

@@ -1,5 +1,6 @@
 package com.mylog.member.controller;
 
+import com.mylog.base.util.Ut;
 import com.mylog.member.form.MemberForm;
 import com.mylog.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@Valid MemberForm memberForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
+            bindingResult.reject("joinFailed", "빈 항목을 입력하세요");
             return "member/join_form";
         }
         if(!memberForm.getPassword1().equals(memberForm.getPassword2())) {
@@ -48,6 +50,6 @@ public class MemberController {
             bindingResult.reject("joinFailed", e.getMessage());
             return "member/join_form";
         }
-        return "redirect:/member/login";
+        return "redirect:/member/login?msg=%s".formatted(Ut.url.encode("회원가입 완료! 로그인하세요!"));
     }
 }

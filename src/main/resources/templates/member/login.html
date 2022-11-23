@@ -1,12 +1,23 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content">
-    <div class="mx-auto my-auto">
-        <form th:action="@{/member/login}" onsubmit="login(this); return false;" method="post">
-            <input type="text" name="username" id="username">
-            <input type="password" name="password" id="password">
-            <button class="btn btn-primary" type="submit">로그인</button>
-        </form>
-    </div>
+<div layout:fragment="content" class="flex-grow flex flex-col">
+    <section class="section section-login flex-grow flex items-center justify-center">
+        <div class="flex-grow max-w-md px-2 pt-4">
+            <form th:action="@{/member/login}" onsubmit="login(this); return false;" method="post">
+                <div class="m-2">
+                    <input class="input input-bordered input-info" type="text" name="username" id="username"
+                           placeholder="ID" style="width: 100%;">
+                </div>
+                <div class="m-2">
+                    <input class="input input-bordered input-info" type="password" name="password" id="password"
+                           placeholder="PW" style="width: 100%;">
+                </div>
+                <div class="m-2 flex content-around">
+                    <button class="btn btn-primary" type="submit" style="width: 50%;">로그인</button>
+                    <a class="btn btn-primary btn-outline" th:href="@{/member/join}" style="width: 50%;">회원가입</a>
+                </div>
+            </form>
+        </div>
+    </section>
     <script>
         function login(form) {
             form.username.value = form.username.value.trim();
@@ -23,6 +34,7 @@
                 form.password.focus();
                 return;
             }
+            form.submit();
         }
     </script>
 </div>

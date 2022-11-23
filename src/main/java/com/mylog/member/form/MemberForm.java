@@ -11,20 +11,20 @@ import javax.validation.constraints.Size;
 @Setter
 public class MemberForm {
 
-    @NotEmpty(message = "아이디는 필수항목입니다.")
-    @Size(min = 5, max = 25)
+    @NotEmpty(message = "")
+    @Size(min = 5, max = 25, message = "아이디는 5자 이상입니다.")
     private String username;
 
-    @NotEmpty(message = "비밀번호는 필수항목입호다.")
+    @NotEmpty(message = "")
     private String password1;
 
-    @NotEmpty(message = "비밀번호 확인은 필수항목입니다.")
+    @NotEmpty(message = "")
     private String password2;
 
-    @NotEmpty(message = "이메일는 필수항목입니다.")
+    @NotEmpty(message = "")
     @Email
     private String email;
 
-    @NotEmpty(message = "닉네임은 필수항목입니다.")
+    @NotEmpty(message = "")
     private String nickname;
 }

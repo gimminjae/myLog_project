@@ -15,29 +15,76 @@
                     <button class="btn btn-primary" type="submit" style="width: 50%;">로그인</button>
                     <a class="btn btn-primary btn-outline" th:href="@{/member/join}" style="width: 50%;">회원가입</a>
                 </div>
-                <label class="label">
-                    <!-- Put this part before </body> tag -->
-                    <input type="checkbox" id="my-modal-3" class="modal-toggle"/>
-                    <div class="modal">
-                        <div class="modal-box relative">
-                            <label for="my-modal-3"
-                                   class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                            <h3 class="mb-1">이메일을 입력하세요</h3>
-                            <input class="input input-bordered input-md w-full max-w-xs mr-2" type="email"
-                                   id="email">
-                            <button class="btn btn-outline btn-primary" type="button" onclick="find_id_email()">
-                                아이디 찾기
-                            </button>
+                <div class="flex justify-between">
+                    <label class="label">
+                        <!-- Put this part before </body> tag -->
+                        <input type="checkbox" id="my-modal-3" class="modal-toggle"/>
+                        <div class="modal">
+                            <div class="modal-box relative">
+                                <label for="my-modal-3"
+                                       class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                <h3 class="mb-1">이메일을 입력하세요</h3>
+                                <input class="input input-bordered input-md w-full max-w-xs mr-2" type="email"
+                                       id="email">
+                                <button class="btn btn-outline btn-primary" type="button" onclick="find_id_email()">
+                                    아이디 찾기
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <a for="my-modal-3" class="label-text-alt link link-hover mr-2">Forgot ID?</a>
-                    <a th:href="@{/member/findPassword}" class="label-text-alt link link-hover">Forgot
-                        password?</a>
-                </label>
+                        <a for="my-modal-3" class="label-text-alt link link-hover mr-2">Forgot ID?</a>
+                        <!--                    <a th:href="@{/member/findPassword}" class="label-text-alt link link-hover">Forgot password?</a>-->
+                    </label>
+                    <label class="label">
+                        <!-- Put this part before </body> tag -->
+                        <input type="checkbox" id="my-modal-4" class="modal-toggle"/>
+                        <div class="modal">
+                            <div class="modal-box relative justify-end">
+                                <label for="my-modal-4"
+                                       class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                <h3 class="mb-1">아이디를 입력하세요</h3>
+                                <input class="input input-bordered input-md w-full max-w-xs mr-2" type="text"
+                                       id="username1">
+                                <h3 class="mb-1">이메일을 입력하세요</h3>
+                                <input class="input input-bordered input-md w-full max-w-xs mr-2" type="email"
+                                       id="email1">
+                                <button class="btn btn-outline btn-primary mt-2" type="button" onclick="find_password();">
+                                    임시 비밀번호 발급
+                                </button>
+                            </div>
+                        </div>
+                        <a for="my-modal-4" class="label-text-alt link link-hover mr-2">Forgot password?</a>
+                        <!--                    <a th:href="@{/member/findPassword}" class="label-text-alt link link-hover">Forgot password?</a>-->
+                    </label>
+                </div>
             </form>
         </div>
     </section>
     <script>
+        function find_password() {
+            let input_email = document.getElementById('email1').value;
+            let input_username = document.getElementById('username1').value;
+            if (input_username.length == 0) {
+                // alert('제목을 입력해주세요.');
+                warningModal('아이디을 입력해주세요.');
+                return;
+            }
+            if (input_email.length == 0) {
+                // alert('제목을 입력해주세요.');
+                warningModal('이메일을 입력해주세요.');
+                return;
+            }
+            $.ajax({
+                type: "post",
+                url: "/member/password?email=" + input_email + "&username=" + input_username,
+                datatype: "text",
+                success: function (res) {
+                    successModal('해당 메일로 임시 비밀번호가 발송되었습니다.');
+                },
+                error: function () {
+                    warningModal('존재하지 않는 회원입니다.');
+                }
+            });
+        }
         function find_id_email() {
             let input_email = document.getElementById('email').value;
             if (input_email.length == 0) {
@@ -57,6 +104,7 @@
                 }
             });
         }
+
         function login(form) {
             form.username.value = form.username.value.trim();
             if (form.username.value.length == 0) {

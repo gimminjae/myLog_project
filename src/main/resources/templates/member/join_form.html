@@ -9,25 +9,32 @@
     </div>
     <div>
       <p>아이디</p>
-      <input class="input" type="text" th:field="*{username}">
+      <input class="input" type="text" th:field="*{username}" name="username">
     </div>
     <div>
       <p>비밀번호</p>
-      <input class="input" type="password" th:field="*{password1}">
+      <input class="input" type="password" th:field="*{password1}" name="password1">
     </div>
     <div>
       <p>비밀번호 확인</p>
-      <input class="input" type="password" th:field="*{password2}">
+      <input class="input" type="password" th:field="*{password2}" name="password2">
     </div>
     <div>
       <p>이메일</p>
-      <input class="input" type="email" th:field="*{email}">
+      <input class="input" type="email" th:field="*{email}" name="email">
     </div>
     <div>
       <p>닉네임</p>
-      <input type="text" th:field="*{nickname}">
+      <input type="text" th:field="*{nickname}" name="nickname">
     </div>
-    <button type="submit">회원가입</button>
+    <button class="btn btn-primary">회원가입</button>
   </form>
 </div>
+<script th:inline="javascript">
+    const errors = [[${#fields.allErrors()}]];
+
+    errors.forEach( function (error) {
+      warningModal(error);
+    });
+</script>
 </html>

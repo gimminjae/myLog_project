@@ -1,11 +1,29 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
     <div class="mx-auto my-auto">
-        <form th:action="@{/member/login}" method="post">
+        <form th:action="@{/member/login}" onsubmit="login(this); return false;" method="post">
             <input type="text" name="username" id="username">
             <input type="password" name="password" id="password">
             <button class="btn btn-primary" type="submit">로그인</button>
         </form>
     </div>
+    <script>
+        function login(form) {
+            form.username.value = form.username.value.trim();
+            if (form.username.value.length == 0) {
+                // alert('제목을 입력해주세요.');
+                warningModal('아이디를 입력해주세요.');
+                form.username.focus();
+                return;
+            }
+            form.password.value = form.password.value.trim();
+            if (form.password.value.length == 0) {
+                // alert('제목을 입력해주세요.');
+                warningModal('비밀번호를 입력해주세요.');
+                form.password.focus();
+                return;
+            }
+        }
+    </script>
 </div>
 </html>

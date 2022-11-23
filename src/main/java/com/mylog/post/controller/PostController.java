@@ -2,7 +2,7 @@ package com.mylog.post.controller;
 
 import com.mylog.base.util.Ut;
 import com.mylog.post.dto.PostDto;
-import com.mylog.post.form.PostForm;
+//import com.mylog.post.form.PostForm;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -31,13 +31,15 @@ public class PostController {
 
     //글 작성 폼
     @GetMapping("/write")
-    public String postWrite() {
+    public String postWriteForm() {
         return "post/write";
     }
 
     //글 작성 처리
     @PostMapping("/write")
-    public String postWrite(@RequestParam String subject, @RequestParam String content, @RequestParam String tagString) {
+    public String postWrite(@RequestParam("subject") String subject,
+                            @RequestParam("content") String content,
+                            @RequestParam("tagString") String tagString) {
 
         PostDto postDto = postService.create(subject, content);
 

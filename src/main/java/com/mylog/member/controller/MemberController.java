@@ -1,6 +1,7 @@
 package com.mylog.member.controller;
 
 import com.mylog.base.util.Ut;
+import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
 import com.mylog.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -63,5 +62,14 @@ public class MemberController {
 
         //회원가입 완료
         return "redirect:/member/login?msg=%s".formatted(Ut.url.encode("회원가입 완료! 로그인하세요!"));
+    }
+
+    //이메일로 아이디 찾기
+    @PostMapping("/username")
+    @ResponseBody
+    public String findUsernameByEmail(@RequestParam("email") String email) {
+        MemberDto memberDto = memberService.getByEmail(email);
+
+        return memberDto.getUsername();
     }
 }

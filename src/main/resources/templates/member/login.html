@@ -40,9 +40,13 @@
     <script>
         function find_id_email() {
             let input_email = document.getElementById('email').value;
-            console.log(input_email);
+            if (input_email.length == 0) {
+                // alert('제목을 입력해주세요.');
+                warningModal('이메일을 입력해주세요.');
+                return;
+            }
             $.ajax({
-                type: "get",
+                type: "post",
                 url: "/member/username?email=" + input_email,
                 datatype: "text",
                 success: function (res) {

@@ -188,6 +188,8 @@ public class Ut {
 
             return value.length() > 0 ? value : defaultValue;
         }
+    }
+    public static class Str {
         //랜덤 문자열 생성
         public static String makeRandomPassword() {
             int leftLimit = 48; // numeral '0'

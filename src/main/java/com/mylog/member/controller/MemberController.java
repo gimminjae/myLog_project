@@ -1,6 +1,9 @@
 package com.mylog.member.controller;
 
+import com.mylog.base.exception.DataNotFoundException;
 import com.mylog.base.util.Ut;
+import com.mylog.mail.MailService;
+import com.mylog.mail.MailTO;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
 import com.mylog.member.service.MemberService;
@@ -18,6 +21,7 @@ import javax.validation.Valid;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+    private final MailService mailService;
 
     //로그인 폼
     @GetMapping("/login")
@@ -72,4 +76,34 @@ public class MemberController {
 
         return memberDto.getUsername();
     }
+
+    //임시 비밀번호 발급
+    @PostMapping("/password")
+    @ResponseBody
+    public String find_password(@RequestParam("email") String email,
+                                @RequestParam("username") String username) {
+        MemberDto member = null;
+        try {
+            //회원 찾기
+            member = memberService.getByUsername(username);
+
+            if (!member.getEmail().equals(email)) {
+                throw new DataNotFoundException("회원을 찾을 수 없습니다.");
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        //임시 비밀번호 생성
+        String newPassword = Ut.Str.makeRandomPassword();
+
+        //임시 비밀번호로 비밀번호 변겅
+        memberService.modifyPassword(member, newPassword);
+
+        //메일 생성 & 발송
+        MailTO mail = new MailTO(email, "임시 비밀번호 발급", "회원님의 임시 비밀번호는 " + newPassword + " 입니다.");
+        mailService.sendMail(mail);
+
+        return "success";
+    }
+
 }

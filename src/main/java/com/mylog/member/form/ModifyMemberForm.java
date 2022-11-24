@@ -8,12 +8,12 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class ModifyMemberForm {
-    @NotBlank
+    @NotBlank(message = "빈 항목을 확인해주세요.")
     private String nickname;
 
-    @NotBlank
+    @NotBlank(message = "빈 항목을 확인해주세요.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "빈 항목을 확인해주세요.")
     private String password;
 }

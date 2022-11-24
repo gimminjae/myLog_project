@@ -84,4 +84,8 @@ public class PostService {
     private Post findById(long id) {
         return postRepository.findById(id).orElse(null);
     }
+
+    public List<PostDto> getByMember(MemberDto memberDto) {
+        return postRepository.findByMemberId(memberDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
+    }
 }

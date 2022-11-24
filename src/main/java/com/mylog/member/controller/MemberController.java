@@ -7,15 +7,20 @@ import com.mylog.mail.MailTO;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
 import com.mylog.member.service.MemberService;
+import com.mylog.post.dto.PostDto;
+import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +28,7 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
     private final MailService mailService;
-
+    private final PostService postService;
     //로그인 폼
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
@@ -109,6 +114,17 @@ public class MemberController {
         mailService.sendMail(mail);
 
         return "success";
+    }
+    @GetMapping("")
+    public String myPage(Principal principal, Model model) {
+        MemberDto memberDto = memberService.getByUsername(principal.getName());
+
+        List<PostDto> postDtoList = postService.getByMember(memberDto);
+
+        model.addAttribute("postList", postDtoList);
+        model.addAttribute("member", memberDto);
+
+        return "member/profile";
     }
 
 }

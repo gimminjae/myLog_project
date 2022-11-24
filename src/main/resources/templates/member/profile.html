@@ -1,0 +1,29 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <div class="mb-5">
+        <div class="flex justify-center">
+            <div class="lg:flex-row">
+                <div class="flex items-center" >
+                    <div class="avatar mr-4">
+                        <div class="w-24 mask mask-squircle">
+                            <img src="https://placeimg.com/192/192/people"/>
+                        </div>
+                    </div>
+                    <div>
+                        <!--                        <h1 class="text-5xl font-bold mb-2" th:text="${member.username}"></h1>-->
+                        <h2 class="text-5xl">[[${member.nickname}]]</h2>
+                    </div>
+                </div>
+                <div>
+                    <a class="py-6 text-2xl"><i class="fa-regular fa-envelope"></i> [[${member.email}]]</a>
+                    <a class="btn btn-outline btn-primary" th:href="@{/member/modify}">회원정보수정</a>
+                    <a class="btn btn-outline btn-success" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+</html>

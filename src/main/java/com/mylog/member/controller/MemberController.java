@@ -117,12 +117,13 @@ public class MemberController {
         return "success";
     }
     @GetMapping("")
-    public String myPage(Principal principal, Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+    public String myPage(Principal principal, Model model,
+                         @RequestParam(value = "page", defaultValue = "0") int page,
+                         @RequestParam(value = "kw", defaultValue = "") String kw) {
         MemberDto memberDto = memberService.getByUsername(principal.getName());
 
-        List<PostDto> postDtoList = postService.getByMember(page, memberDto);
+        Page<PostDto> postDtoList = postService.getByMember(page, memberDto);
 
-        System.out.println(postDtoList);
         model.addAttribute("postList", postDtoList);
         model.addAttribute("member", memberDto);
 

@@ -90,11 +90,11 @@ public class PostService {
         return postRepository.findById(id).orElse(null);
     }
 
-    public List<PostDto> getByMember(int page, MemberDto memberDto) {
+    public Page<PostDto> getByMember(int page, MemberDto memberDto) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return postRepository.findByMemberId(pageable, memberDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
+        return postRepository.findByMemberId(pageable, memberDto.getId()).map(i -> DtoUt.toDto(i));
 //        Page<Post> posts = postRepository.findByMemberId(pageable, memberDto.getId());
 //        List<PostDto> postDtos = new ArrayList<>();
 //        for(Post post : posts) postDtos.add(DtoUt.toDto(post));

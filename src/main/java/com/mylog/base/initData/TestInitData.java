@@ -18,8 +18,10 @@ public class TestInitData {
     ) {
         return args -> {
             memberService.create("user1", "user1", "min356812@naver.com", "minjjai");
+            memberService.create("user2", "user2", "user2@test.com", "user2");
 
             MemberDto memberDto = memberService.getById(1L);
+            MemberDto memberDto2 = memberService.getById(2L);
             postService.create("subject1", "content1", memberDto);
             postService.create("subject2", "content2", memberDto);
             postService.create("subject3", "content3", memberDto);
@@ -32,6 +34,19 @@ public class TestInitData {
             postService.create("subject10", "content10", memberDto);
             postService.create("subject11", "content11", memberDto);
             postService.create("subject12", "content12", memberDto);
+
+            postService.create("subject11", "content1", memberDto2);
+            postService.create("subject21", "content2", memberDto2);
+            postService.create("subject31", "content3", memberDto2);
+            postService.create("subject41", "content4", memberDto2);
+            postService.create("subject51", "content5", memberDto2);
+            postService.create("subject61", "content6", memberDto2);
+            postService.create("subject71", "content7", memberDto2);
+            postService.create("subject81", "content8", memberDto2);
+            postService.create("subject91", "content9", memberDto2);
+            postService.create("subject101", "content10", memberDto2);
+            postService.create("subject111", "content11", memberDto2);
+            postService.create("subject121", "content12", memberDto2);
         };
     }
 }

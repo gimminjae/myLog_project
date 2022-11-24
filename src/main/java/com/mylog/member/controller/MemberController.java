@@ -6,6 +6,7 @@ import com.mylog.mail.MailService;
 import com.mylog.mail.MailTO;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
+import com.mylog.member.form.ModifyMemberForm;
 import com.mylog.member.form.ModifyPasswordForm;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
@@ -172,5 +173,14 @@ public class MemberController {
 
         return "redirect:/member?msg=%s".formatted(Ut.url.encode("비밀번호가 변경되었습니다."));
     }
+    @GetMapping("/modifyMember")
+    @PreAuthorize("isAuthenticated()")
+    public String modifyMember(ModifyMemberForm modifyMemberForm, Principal principal) {
+        MemberDto memberDto = memberService.getByUsername(principal.getName());
 
+        modifyMemberForm.setEmail(memberDto.getEmail());
+        modifyMemberForm.setNickname(memberDto.getNickname());
+
+        return "member/modify_member";
+    }
 }

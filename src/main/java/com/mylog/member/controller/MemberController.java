@@ -10,6 +10,7 @@ import com.mylog.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,14 @@ public class MemberController {
 
     //로그인 폼
     @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
     public String login() {
         return "member/login";
     }
 
     //회원가입 폼
     @GetMapping("/join")
+    @PreAuthorize("isAnonymous()")
     public String join(MemberForm memberForm) {
         return "member/join_form";
     }
@@ -71,6 +74,7 @@ public class MemberController {
     //이메일로 아이디 찾기
     @PostMapping("/username")
     @ResponseBody
+    @PreAuthorize("isAuthenticated()")
     public String findUsernameByEmail(@RequestParam("email") String email) {
         MemberDto memberDto = memberService.getByEmail(email);
 
@@ -80,6 +84,7 @@ public class MemberController {
     //임시 비밀번호 발급
     @PostMapping("/password")
     @ResponseBody
+    @PreAuthorize("isAuthenticated()")
     public String find_password(@RequestParam("email") String email,
                                 @RequestParam("username") String username) {
         MemberDto member = null;

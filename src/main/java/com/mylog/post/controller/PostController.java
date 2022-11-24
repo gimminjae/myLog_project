@@ -7,6 +7,7 @@ import com.mylog.post.dto.PostDto;
 //import com.mylog.post.form.PostForm;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,12 +34,14 @@ public class PostController {
 
     //글 작성 폼
     @GetMapping("/write")
+    @PreAuthorize("isAuthenticated()")
     public String postWriteForm() {
         return "post/write";
     }
 
     //글 작성 처리
     @PostMapping("/write")
+    @PreAuthorize("isAuthenticated()")
     public String postWrite(Principal principal,
                             @RequestParam("subject") String subject,
                             @RequestParam("content") String content,
@@ -62,6 +65,7 @@ public class PostController {
 
     //글 수정
     @GetMapping("/modify/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String postModify(@PathVariable("id") long id, Model model) {
         PostDto postDto = postService.getById(id);
 
@@ -71,6 +75,7 @@ public class PostController {
 
     //글 수정 처리
     @PostMapping("/modify/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String postModify(@PathVariable("id") long id,
                              @RequestParam String subject, @RequestParam String tagString, @RequestParam String content) {
         PostDto postDto = postService.getById(id);
@@ -81,6 +86,7 @@ public class PostController {
 
     //글 삭제 처리
     @GetMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String postDelete(@PathVariable("id") long id) {
         PostDto postDto = postService.getById(id);
         postService.delete(postDto);

@@ -1,5 +1,6 @@
 package com.mylog.config;
 
+import com.mylog.base.util.Ut;
 import com.mylog.member.service.MemberSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,8 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/member/login") //로그인 url
-                .defaultSuccessUrl("/") //로그인 성공시 이동할 url
+                .defaultSuccessUrl("/?msg=%s".formatted(Ut.url.encode("환영합니다!")))
+                .failureUrl("/member/login?errorMsg=%s".formatted(Ut.url.encode("아이디 혹은 비밀번호를 확인하세요.")))//로그인 성공시 이동할 url
                 .and()
                 .logout()
                 //로그아웃 url

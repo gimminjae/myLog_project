@@ -6,6 +6,7 @@ import com.mylog.mail.MailService;
 import com.mylog.mail.MailTO;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
+import com.mylog.member.form.ModifyPasswordForm;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.service.PostService;
@@ -19,9 +20,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -116,7 +119,10 @@ public class MemberController {
 
         return "success";
     }
+
+    //마이페이지
     @GetMapping("")
+    @PreAuthorize("isAuthenticated()")
     public String myPage(Principal principal, Model model,
                          @RequestParam(value = "page", defaultValue = "0") int page,
                          @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -128,6 +134,39 @@ public class MemberController {
         model.addAttribute("member", memberDto);
 
         return "member/profile";
+    }
+
+    //비밀번호 변경 폼
+    @GetMapping("/modifyPassword")
+    @PreAuthorize("isAuthenticated()")
+    public String modifyPassword(ModifyPasswordForm modifyPasswordForm) {
+
+        return "member/modify_password";
+    }
+
+    //비밀번호 변경 처리
+    @PostMapping("/modifyPassword")
+    @PreAuthorize("isAuthenticated()")
+    public String modifyPassword(@Valid ModifyPasswordForm modifyPasswordForm, BindingResult bindingResult,
+                                 Principal principal) {
+        if(bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            return "redirect:/member/modifyPassword?errorMsg=%s".formatted(Ut.url.encode(errors.get(0)));
+        }
+
+        MemberDto memberDto = memberService.getByUsername(principal.getName());
+
+        if(!memberService.passwordConfirm(modifyPasswordForm.getOldPassword(), memberDto)) {
+            return "redirect:/member/modifyPassword?errorMsg=%s".formatted(Ut.url.encode("기존 비밀번호가 틀렸습니다."));
+        }
+
+        if(!modifyPasswordForm.getNewPassword1().equals(modifyPasswordForm.getNewPassword2())) {
+            return "redirect:/member/modifyPassword?errorMsg=%s".formatted(Ut.url.encode("새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다."));
+        }
+
+       //비밀번호 변경 로직
+
+        return "redirect:/member?msg=%s".formatted(Ut.url.encode("비밀번호가 변경되었습니다."));
     }
 
 }

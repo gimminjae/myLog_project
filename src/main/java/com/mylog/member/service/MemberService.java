@@ -92,4 +92,8 @@ public class MemberService {
 
         memberRepository.save(member);
     }
+
+    public boolean passwordConfirm(String oldPassword, MemberDto memberDto) {
+        return passwordEncoder.matches(oldPassword, memberDto.getPassword());
+    }
 }

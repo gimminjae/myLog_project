@@ -12,6 +12,7 @@ import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,11 +117,12 @@ public class MemberController {
         return "success";
     }
     @GetMapping("")
-    public String myPage(Principal principal, Model model) {
+    public String myPage(Principal principal, Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         MemberDto memberDto = memberService.getByUsername(principal.getName());
 
-        List<PostDto> postDtoList = postService.getByMember(memberDto);
+        List<PostDto> postDtoList = postService.getByMember(page, memberDto);
 
+        System.out.println(postDtoList);
         model.addAttribute("postList", postDtoList);
         model.addAttribute("member", memberDto);
 

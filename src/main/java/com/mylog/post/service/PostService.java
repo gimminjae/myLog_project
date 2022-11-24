@@ -9,10 +9,15 @@ import com.mylog.post.dto.PostDto;
 import com.mylog.post.entity.Post;
 import com.mylog.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.awt.color.ICC_Profile;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +90,15 @@ public class PostService {
         return postRepository.findById(id).orElse(null);
     }
 
-    public List<PostDto> getByMember(MemberDto memberDto) {
-        return postRepository.findByMemberId(memberDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
+    public List<PostDto> getByMember(int page, MemberDto memberDto) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        return postRepository.findByMemberId(pageable, memberDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
+//        Page<Post> posts = postRepository.findByMemberId(pageable, memberDto.getId());
+//        List<PostDto> postDtos = new ArrayList<>();
+//        for(Post post : posts) postDtos.add(DtoUt.toDto(post));
+
+//        return postDtos;
     }
 }

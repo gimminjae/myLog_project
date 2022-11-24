@@ -23,6 +23,15 @@ public class TestInitData {
             postService.create("subject1", "content1", memberDto);
             postService.create("subject2", "content2", memberDto);
             postService.create("subject3", "content3", memberDto);
+            postService.create("subject4", "content4", memberDto);
+            postService.create("subject5", "content5", memberDto);
+            postService.create("subject6", "content6", memberDto);
+            postService.create("subject7", "content7", memberDto);
+            postService.create("subject8", "content8", memberDto);
+            postService.create("subject9", "content9", memberDto);
+            postService.create("subject10", "content10", memberDto);
+            postService.create("subject11", "content11", memberDto);
+            postService.create("subject12", "content12", memberDto);
         };
     }
 }

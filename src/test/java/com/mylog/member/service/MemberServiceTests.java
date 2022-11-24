@@ -83,6 +83,4 @@ public class MemberServiceTests {
         memberDtoList = memberService.getAll();
         assertThat(memberDtoList.size()).isEqualTo(0);
     }
-
-
 }

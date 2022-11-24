@@ -149,6 +149,8 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     public String modifyPassword(@Valid ModifyPasswordForm modifyPasswordForm, BindingResult bindingResult,
                                  Principal principal) {
+
+        //빈 항목이 있을 경우
         if(bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return "redirect:/member/modifyPassword?errorMsg=%s".formatted(Ut.url.encode(errors.get(0)));
@@ -156,15 +158,17 @@ public class MemberController {
 
         MemberDto memberDto = memberService.getByUsername(principal.getName());
 
+        //기존 비밀번호가 틀렸을 경우
         if(!memberService.passwordConfirm(modifyPasswordForm.getOldPassword(), memberDto)) {
             return "redirect:/member/modifyPassword?errorMsg=%s".formatted(Ut.url.encode("기존 비밀번호가 틀렸습니다."));
         }
-
+        //새 비밀번호와 비밀번호 확인이 일치하지 않을 경우
         if(!modifyPasswordForm.getNewPassword1().equals(modifyPasswordForm.getNewPassword2())) {
             return "redirect:/member/modifyPassword?errorMsg=%s".formatted(Ut.url.encode("새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다."));
         }
 
-       //비밀번호 변경 로직
+       //비밀번호 변경
+        memberService.modifyPassword(memberDto, modifyPasswordForm.getNewPassword1());
 
         return "redirect:/member?msg=%s".formatted(Ut.url.encode("비밀번호가 변경되었습니다."));
     }

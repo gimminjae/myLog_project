@@ -31,7 +31,7 @@
     </div>
 
     <!-- 페이징처리 시작 -->
-    <div th:if="${!postList.isEmpty()}">
+    <div th:if="${!postList.isEmpty()}" class="flex justify-center">
         <div class="btn-group">
             <a th:each="page: ${#numbers.sequence(0, postList.totalPages-1)}"
                th:if="${page >= postList.number-2 and page <= postList.number+2}"

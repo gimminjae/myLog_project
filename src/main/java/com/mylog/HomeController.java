@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/")
 public class HomeController {
+    //git test
     @RequestMapping("")
     public String home() {
         return "redirect:/post/list";

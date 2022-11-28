@@ -104,12 +104,12 @@ public class AnswerServiceTests {
         answerService.create("answer2", postDto, memberDto);
 
         List<AnswerDto> answerDtos1 = answerService.getAll();
-        assertThat(answerDto1.size()).isEqualTo(2);
+        assertThat(answerDtos1.size()).isEqualTo(2);
 
         AnswerDto answerDto = answerService.getById(2);
         answerService.delete(answerDto);
 
         List<AnswerDto> answerDtos2 = answerService.getAll();
-        assertThat(answerDto2.size()).isEqualTo(1);
+        assertThat(answerDtos2.size()).isEqualTo(1);
     }
 }

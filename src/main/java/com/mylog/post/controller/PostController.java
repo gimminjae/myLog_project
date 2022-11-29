@@ -7,6 +7,7 @@ import com.mylog.post.dto.PostDto;
 //import com.mylog.post.form.PostForm;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +26,10 @@ public class PostController {
     private final MemberService memberService;
     //글 목록, 메인 페이지, 시작 페이지
     @GetMapping("/list")
-    public String postList(Model model) {
-        List<PostDto> postDtos = postService.getAll();
+    public String postList(Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "kw", defaultValue = "") String kw) {
+        Page<PostDto> postDtos = postService.getAll(page);
 
         model.addAttribute("postList", postDtos);
         return "post/list";

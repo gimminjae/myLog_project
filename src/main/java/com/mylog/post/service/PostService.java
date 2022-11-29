@@ -53,6 +53,13 @@ public class PostService {
     public List<PostDto> getAll() {
         return postRepository.findAll().stream().map(i -> DtoUt.toDto(i)).toList();
     }
+    public Page<PostDto> getAll(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
+        return postRepository.findAll(pageable).map(i -> DtoUt.toDto(i));
+        //        return postRepository.findByMemberId(pageable, memberDto.getId()).map(i -> DtoUt.toDto(i));
+    }
 
     public PostDto getById(long id) {
         Post post = postRepository.findById(id).orElse(null);

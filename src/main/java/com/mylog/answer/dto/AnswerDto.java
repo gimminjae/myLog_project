@@ -19,6 +19,7 @@ public class AnswerDto {
     private long memberId;
     private String memberName;
     private String memberUsername;
+    private long postId;
 //    private PostDto postDto;
 //    private MemberDto memberDto;
 }

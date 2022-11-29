@@ -40,6 +40,7 @@ public class DtoUt {
                 .memberId(answer.getMember().getId())
                 .memberName(answer.getMember().getNickname())
                 .memberUsername(answer.getMember().getUsername())
+                .postId(answer.getPost().getId())
                 .build();
     }
 

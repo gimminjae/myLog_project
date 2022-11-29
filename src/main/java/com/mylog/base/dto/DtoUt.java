@@ -39,6 +39,7 @@ public class DtoUt {
                 .content(answer.getContent())
                 .memberId(answer.getMember().getId())
                 .memberName(answer.getMember().getNickname())
+                .memberUsername(answer.getMember().getUsername())
                 .build();
     }
 

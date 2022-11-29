@@ -18,6 +18,7 @@ public class AnswerDto {
     private String content;
     private long memberId;
     private String memberName;
+    private String memberUsername;
 //    private PostDto postDto;
 //    private MemberDto memberDto;
 }

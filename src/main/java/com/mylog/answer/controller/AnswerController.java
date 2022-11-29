@@ -34,7 +34,7 @@ public class AnswerController {
 
         AnswerDto answerDto = answerService.create(content, postDto, memberDto);
 
-        return "redirect:/post/%d#%s".formatted(postId, "answer_" + answerDto.getId());
+        return "redirect:/post/%d?msg=%s#%s".formatted(postId, Ut.url.encode("작성되었습니다."), "answer_" + answerDto.getId());
     }
     //댓글 삭제
     @GetMapping("/delete/{answerId}")

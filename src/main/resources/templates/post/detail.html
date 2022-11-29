@@ -25,11 +25,11 @@
         <p class="text-1xl">[[${answerList.size}]]개의 댓글</p>
         <form th:action="@{/answer/create}" method="post" onsubmit="Answer_submit(this); return false;">
             <input style="width: 30%;" type="text" class="input input-bordered" placeholder="댓글을 남겨보세요" id="answer" name="answer">
+            <input type="hidden" name="postId" id="postId" th:value="${post.id}">
             <button class="btn btn-info">댓글 작성</button>
         </form>
 
         <script>
-
             function Answer_submit(form) {
                 form.answer.value = form.answer.value.trim();
                 if (form.answer.value.length == 0) {
@@ -43,8 +43,8 @@
         </script>
     </div>
     <div>
-        <div th:each="answer : ${answerList}" class="border-b-4">
-            <a href="">[[${answer.memberName}]]</a>
+        <div th:each="answer : ${answerList}" class="border-b-2 border-gray-600">
+            <a th:id="|answer_${answer.id}|" th:href="@{|/member/${answer.memberId}|}">[[${answer.memberName}]]</a>
             <p>[[${answer.createDate}]]</p>
             <p>[[${answer.content}]]</p>
         </div>

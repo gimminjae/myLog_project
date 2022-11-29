@@ -53,6 +53,12 @@ public class TestInitData {
             answerService.create("answer1", postService.getById(12), memberDto);
             answerService.create("answer2", postService.getById(12), memberDto);
             answerService.create("answer3", postService.getById(12), memberDto2);
+            answerService.create("answer4", postService.getById(12), memberDto);
+            answerService.create("answer5", postService.getById(12), memberDto2);
+            answerService.create("answer6", postService.getById(12), memberDto);
+            answerService.create("answer7", postService.getById(12), memberDto2);
+            answerService.create("answer8", postService.getById(12), memberDto);
+            answerService.create("answer9", postService.getById(12), memberDto2);
         };
     }
 }

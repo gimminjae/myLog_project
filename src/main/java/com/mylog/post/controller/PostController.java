@@ -1,5 +1,7 @@
 package com.mylog.post.controller;
 
+import com.mylog.answer.dto.AnswerDto;
+import com.mylog.answer.service.AnswerService;
 import com.mylog.base.util.Ut;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.service.MemberService;
@@ -24,6 +26,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final MemberService memberService;
+    private final AnswerService answerService;
     //글 목록, 메인 페이지, 시작 페이지
     @GetMapping("/list")
     public String postList(Model model,
@@ -60,8 +63,10 @@ public class PostController {
     @GetMapping("/{id}")
     public String postDetail(@PathVariable("id") long id, Model model) {
         PostDto postDto = postService.getById(id);
+        List<AnswerDto> answerDtos = answerService.getByPost(postDto);
 
         model.addAttribute("post", postDto);
+        model.addAttribute("answerList", answerDtos);
 
         return "post/detail";
     }

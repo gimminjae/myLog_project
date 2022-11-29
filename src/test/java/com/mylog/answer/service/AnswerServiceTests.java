@@ -77,8 +77,8 @@ public class AnswerServiceTests {
         AnswerDto answerDto1 = answerService.getById(1L);
         assertThat(answerDto1.getContent()).isEqualTo("answer1");
 
-        AnswerDto answerDto2 = answerService.getByPost(postDto);
-        assertThat(answerDto2.getContent()).isEqualTo("answer1");
+        List<AnswerDto> answerDtos2 = answerService.getByPost(postDto);
+        assertThat(answerDtos2.get(0).getContent()).isEqualTo("answer1");
 
         AnswerDto answerDto3 = answerService.getByMember(memberDto);
         assertThat(answerDto3.getContent()).isEqualTo("answer1");

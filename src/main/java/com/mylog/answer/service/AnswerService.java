@@ -43,8 +43,8 @@ public class AnswerService {
         return DtoUt.toDto(answerRepository.findById(id).orElse(null));
     }
 
-    public AnswerDto getByPost(PostDto postDto) {
-        return DtoUt.toDto(answerRepository.findByPostId(postDto.getId()).orElse(null));
+    public List<AnswerDto> getByPost(PostDto postDto) {
+        return answerRepository.findByPostId(postDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
     }
 
     public AnswerDto getByMember(MemberDto memberDto) {

@@ -21,5 +21,25 @@
             </script>
         </div>
     </div>
+    <div>
+        <p class="text-1xl">[[${answerList.size}]]개의 댓글</p>
+        <form th:action="@{/answer/create}" method="post" onsubmit="Answer_submit(this); return false;">
+            <input style="width: 30%;" type="text" class="input input-bordered" placeholder="댓글을 남겨보세요" id="answer" name="answer">
+            <button class="btn btn-info">댓글 작성</button>
+        </form>
+
+        <script>
+            function Answer_submit(form) {
+                form.answer.value = form.answer.value.trim();
+                if (form.answer.value.length == 0) {
+                    // alert('제목을 입력해주세요.');
+                    warningModal('내용을 입력해주세요.');
+                    form.answer.focus();
+                    return;
+                }
+                form.submit();
+            }
+        </script>
+    </div>
 </div>
 </html>

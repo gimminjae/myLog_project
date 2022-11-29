@@ -7,7 +7,9 @@
     <div class="justify-between flex">
         <div><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/member/${post.memberDto.id}|}">by
             [[${post.memberDto.nickname}]]</a></div>
-        <div sec:authorize="isAuthenticated()" th:if="${post.memberDto.getUsername() == #authentication.getPrincipal().getUsername()}" style="float: right">
+        <div sec:authorize="isAuthenticated()"
+             th:if="${post.memberDto.getUsername() == #authentication.getPrincipal().getUsername()}"
+             style="float: right">
             <ul class="flex gap-2">
                 <li><a class="text-gray-500 hover:underline hover:text-[red]"
                        th:href="@{|/post/modify/${post.id}|}">수정</a></li>
@@ -25,7 +27,7 @@
             </div>
         </div>
         <div class="mx-auto" style="width: 30%;">
-            <div>
+            <div class="mb-2">
                 <p class="text-1xl">[[${answerList.size}]]개의 댓글</p>
                 <form th:action="@{/answer/create}" method="post" onsubmit="Answer_submit(this); return false;">
                     <input style="width: 80%;" type="text" class="input input-bordered" placeholder="댓글을 남겨보세요"
@@ -50,9 +52,9 @@
             </div>
             <div>
                 <div th:each="answer : ${answerList}" class="border-b border-gray-600 mb-2">
-                    <div class="mb-1 flex justify-between">
+                    <div class="mb-1 flex justify-between" th:id="|answer_${answer.id}|">
                         <div>
-                            <a class="text-lg font-semibold" th:id="|answer_${answer.id}|"
+                            <a class="text-lg font-semibold"
                                th:href="@{|/member/${answer.memberId}|}">[[${answer.memberName}]]</a>
                             <p class="text-gray-500 text-sm"
                                th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></p>
@@ -64,7 +66,9 @@
                             >삭제</a>
                         </div>
                     </div>
-                    <p>[[${answer.content}]]</p>
+                    <div style="word-wrap: break-word;">
+                        <p>[[${answer.content}]]</p>
+                    </div>
                 </div>
             </div>
         </div>

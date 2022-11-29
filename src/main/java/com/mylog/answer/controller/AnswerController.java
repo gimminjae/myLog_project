@@ -24,6 +24,7 @@ public class AnswerController {
     private final MemberService memberService;
     private final PostService postService;
 
+    //댓글 작성
     @PostMapping("/create")
     public String writeAnswer(Principal principal,
                                  @RequestParam("answer") String content,
@@ -35,6 +36,7 @@ public class AnswerController {
 
         return "redirect:/post/%d#%s".formatted(postId, "answer_" + answerDto.getId());
     }
+    //댓글 삭제
     @GetMapping("/delete/{answerId}")
     public String deleteAnswer(Principal principal, @PathVariable long answerId) {
         MemberDto memberDto = memberService.getByUsername(principal.getName());

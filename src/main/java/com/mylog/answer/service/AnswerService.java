@@ -20,7 +20,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
     //생성 메서드
-    public void create(String content, PostDto postDto, MemberDto memberDto) {
+    public AnswerDto create(String content, PostDto postDto, MemberDto memberDto) {
         Post post = DtoUt.toEntity(postDto);
         Member member = DtoUt.toEntity(memberDto);
 
@@ -31,6 +31,8 @@ public class AnswerService {
                 .createDate(LocalDateTime.now())
                 .build();
         answerRepository.save(answer);
+
+        return DtoUt.toDto(answer);
     }
 
 

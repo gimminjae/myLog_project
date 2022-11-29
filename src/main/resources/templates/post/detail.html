@@ -28,7 +28,9 @@
             <button class="btn btn-info">댓글 작성</button>
         </form>
 
-        <script>
+        <script th:inline="javascript">
+            var input_postId = [[${post.id}]];
+
             function Answer_submit(form) {
                 form.answer.value = form.answer.value.trim();
                 if (form.answer.value.length == 0) {
@@ -37,7 +39,24 @@
                     form.answer.focus();
                     return;
                 }
-                form.submit();
+                console.log(input_postId);
+                console.log(form.answer.value);
+                $.ajax({
+                    type: "post",
+                    url: "/answer/create",
+                    data: {
+                        answer: form.answer.value,
+                        postId: input_postId
+                    },
+                    datatype: "text",
+                    success: function (res) {
+                        console.log('성공, 결과 : ' + res);
+                        alert(res);
+                    },
+                    error: function () {
+                        alert('실패');
+                    }
+                });
             }
         </script>
     </div>

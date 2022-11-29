@@ -37,6 +37,8 @@ public class DtoUt {
                 .createDate(answer.getCreateDate())
                 .updateDate(answer.getUpdateDate())
                 .content(answer.getContent())
+                .memberId(answer.getMember().getId())
+                .memberName(answer.getMember().getNickname())
                 .build();
     }
 

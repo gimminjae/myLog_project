@@ -16,6 +16,8 @@ public class AnswerDto {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private String content;
+    private long memberId;
+    private String memberName;
 //    private PostDto postDto;
 //    private MemberDto memberDto;
 }

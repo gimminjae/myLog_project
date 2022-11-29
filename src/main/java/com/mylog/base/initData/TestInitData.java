@@ -1,5 +1,6 @@
 package com.mylog.base.initData;
 
+import com.mylog.answer.service.AnswerService;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.service.PostService;
@@ -14,7 +15,8 @@ public class TestInitData {
     @Bean
     CommandLineRunner init(
             PostService postService,
-            MemberService memberService
+            MemberService memberService,
+            AnswerService answerService
     ) {
         return args -> {
             memberService.create("user1", "user1", "min356812@naver.com", "minjjai");
@@ -47,6 +49,10 @@ public class TestInitData {
             postService.create("subject101", "content10", memberDto2);
             postService.create("subject111", "content11", memberDto2);
             postService.create("subject121", "content12", memberDto2);
+
+            answerService.create("answer1", postService.getById(12), memberDto);
+            answerService.create("answer2", postService.getById(12), memberDto);
+            answerService.create("answer3", postService.getById(12), memberDto2);
         };
     }
 }

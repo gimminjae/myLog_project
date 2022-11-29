@@ -25,8 +25,7 @@ public class AnswerController {
     private final PostService postService;
 
     @PostMapping("/create")
-    @ResponseBody
-    public AnswerDto writeAnswer(Principal principal,
+    public String writeAnswer(Principal principal,
                                  @RequestParam("answer") String content,
                                  @RequestParam("postId") long postId) {
         MemberDto memberDto = memberService.getByUsername(principal.getName());
@@ -34,6 +33,6 @@ public class AnswerController {
 
         AnswerDto answerDto = answerService.create(content, postDto, memberDto);
 
-        return answerDto;
+        return "redirect:/post/%d#%s".formatted(postId, "answer_" + answerDto.getId());
     }
 }

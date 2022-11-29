@@ -9,6 +9,7 @@ import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.security.Principal;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/answer")
+@PreAuthorize("isAuthenticated()")
 public class AnswerController {
     private final AnswerService answerService;
     private final MemberService memberService;

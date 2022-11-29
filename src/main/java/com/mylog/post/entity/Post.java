@@ -1,5 +1,6 @@
 package com.mylog.post.entity;
 
+import com.mylog.answer.entity.Answer;
 import com.mylog.base.entity.BaseEntity;
 import com.mylog.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -8,10 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,4 +33,7 @@ public class Post extends BaseEntity {
 //    private HashTag hashTag;
     @ManyToOne
     private Member member;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Answer> answerList;
 }

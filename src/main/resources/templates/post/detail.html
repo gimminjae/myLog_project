@@ -1,0 +1,77 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <div th:replace="common/toastEditorFragment :: editorFragment"></div>
+    <div class="mb-3">
+        <p class="text-5xl">[[${post.subject}]]</p>
+    </div>
+    <div class="justify-between flex">
+        <div><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/member/${post.memberDto.id}|}">by
+            [[${post.memberDto.nickname}]]</a></div>
+        <div sec:authorize="isAuthenticated()"
+             th:if="${post.memberDto.getUsername() == #authentication.getPrincipal().getUsername()}"
+             style="float: right">
+            <ul class="flex gap-2">
+                <li><a class="text-gray-500 hover:underline hover:text-[red]"
+                       th:href="@{|/post/modify/${post.id}|}">수정</a></li>
+                <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/delete/${post.id}|}"
+                       onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;">삭제</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div style="width: 69%;">
+            <div class="toast-ui-viewer">
+                <script type="text/x-template">
+                    [[${post.content}]]
+                </script>
+            </div>
+        </div>
+        <div class="mx-auto" style="width: 30%;">
+            <div class="mb-2">
+                <p class="text-1xl">[[${answerList.size}]]개의 댓글</p>
+                <form th:action="@{/answer/create}" method="post" onsubmit="Answer_submit(this); return false;">
+                    <input style="width: 80%;" type="text" class="input input-bordered" placeholder="댓글을 남겨보세요"
+                           id="answer"
+                           name="answer">
+                    <input type="hidden" name="postId" id="postId" th:value="${post.id}">
+                    <button class="btn btn-info" style="width:18%;"><i class="fa-regular fa-comment"></i></button>
+                </form>
+
+                <script>
+                    function Answer_submit(form) {
+                        form.answer.value = form.answer.value.trim();
+                        if (form.answer.value.length == 0) {
+                            // alert('제목을 입력해주세요.');
+                            warningModal('내용을 입력해주세요.');
+                            form.answer.focus();
+                            return;
+                        }
+                        form.submit();
+                    }
+                </script>
+            </div>
+            <div>
+                <div th:each="answer : ${answerList}" class="border-b border-gray-600 mb-2">
+                    <div class="mb-1 flex justify-between" th:id="|answer_${answer.id}|">
+                        <div class="flex gap-3">
+                            <a class="text-lg font-semibold"
+                               th:href="@{|/member/${answer.memberId}|}">[[${answer.memberName}]]</a>
+                            <p class="text-gray-500 text-sm"
+                               th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></p>
+                        </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <a th:if="${answer.memberUsername == #authentication.getPrincipal().getUsername()}"
+                               th:href="@{|/answer/delete/${answer.id}|}"
+                               class="text-gray-500 hover:underline"
+                            >삭제</a>
+                        </div>
+                    </div>
+                    <div style="word-wrap: break-word;">
+                        <p>[[${answer.content}]]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

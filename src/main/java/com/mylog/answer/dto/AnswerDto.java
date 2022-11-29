@@ -1,11 +1,9 @@
-package com.mylog.post.dto;
+package com.mylog.answer.dto;
 
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.mylog.post.dto.PostDto;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,13 +11,15 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDto {
+public class AnswerDto {
     private long id;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
-    private String subject;
     private String content;
-    private String contentHtml;
-    private int likes;
-    private MemberDto memberDto;
+    private long memberId;
+    private String memberName;
+    private String memberUsername;
+    private long postId;
+//    private PostDto postDto;
+//    private MemberDto memberDto;
 }

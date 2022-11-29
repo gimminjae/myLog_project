@@ -53,7 +53,7 @@
             <div>
                 <div th:each="answer : ${answerList}" class="border-b border-gray-600 mb-2">
                     <div class="mb-1 flex justify-between" th:id="|answer_${answer.id}|">
-                        <div>
+                        <div class="flex gap-3">
                             <a class="text-lg font-semibold"
                                th:href="@{|/member/${answer.memberId}|}">[[${answer.memberName}]]</a>
                             <p class="text-gray-500 text-sm"

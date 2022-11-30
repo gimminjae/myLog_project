@@ -32,6 +32,8 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     private String email;
 
+    private String profileImg;
+
 //    @ManyToMany
 //    private List<Post> likes;
 }

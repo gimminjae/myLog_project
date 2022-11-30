@@ -29,6 +29,7 @@ public class DtoUt {
                 .username(member.getUsername())
                 .email(member.getEmail())
                 .password(member.getPassword())
+                .profileImg(member.getProfileImg())
                 .build();
     }
     public static AnswerDto toDto(Answer answer) {
@@ -53,6 +54,7 @@ public class DtoUt {
                 .username(memberDto.getUsername())
                 .email(memberDto.getEmail())
                 .password(memberDto.getPassword())
+                .profileImg(memberDto.getProfileImg())
                 .build();
     }
     public static Post toEntity(PostDto postDto) {

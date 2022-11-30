@@ -18,4 +18,5 @@ spring:
     hibernate:
       ddl-auto: update
 custom:
+  genFileDirPath: /Users/gimminjae/Desktop/project/temp/app10
 

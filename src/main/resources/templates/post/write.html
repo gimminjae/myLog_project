@@ -77,11 +77,18 @@
 <form th:action="@{/post/write}" onsubmit="ArticleSave__submitForm(this); return false;" method="post">
     <input type="hidden" name="content" id="content" />
     <!--제목-->
-    <div class="m-2 gap-3">
-        <input style="width: 40%;" type="text" placeholder="제목을 입력하세요" name="subject" id="subject" class="input input-bordered input-info" />
+    <div class="flex m-2 gap-3">
+        <input style="width: 25%;" type="text" placeholder="제목을 입력하세요" name="subject" id="subject" class="input input-bordered input-info" />
         <!--태그-->
-        <input style="width: 40%;" type="text" name="tagString" id="tagString" placeholder="태그를 입력하세요" class="input input-bordered input-info" />
-        <button style="width: 18%;" class="btn btn-info" type="submit">저장하기</button>
+        <input style="width: 25%;" type="text" name="tagString" id="tagString" placeholder="태그를 입력하세요" class="input input-bordered input-info" />
+        <div style="width:25%;" class="dropdown dropdown-bottom dropdown-end">
+            <label style="width:100%;" tabindex="0" class="btn m-1">시리즈</label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a>Item 1</a></li>
+                <li><a>Item 2</a></li>
+            </ul>
+        </div>
+        <button style="width: 20%;" class="btn btn-info" type="submit">저장하기</button>
     </div>
     <!--내용-->
     <div class="toast-ui-editor" toast-ui-editor--height="calc(100vh - 100px)"></div>

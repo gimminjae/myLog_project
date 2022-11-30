@@ -16,3 +16,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+custom:
+  genFileDirPath: /Users/gimminjae/Desktop/project/temp/myLog

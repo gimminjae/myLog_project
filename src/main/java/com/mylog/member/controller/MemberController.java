@@ -188,7 +188,7 @@ public class MemberController {
     public String modifyMember(Principal principal,
                                @Valid ModifyMemberForm modifyMemberForm, BindingResult bindingResult) {
         //빈 항목이 있을 경우
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return "redirect:/member/modifyMember?errorMsg=%s".formatted(Ut.url.encode(errors.get(0)));
         }
@@ -197,10 +197,10 @@ public class MemberController {
         //회원정보 수정 로직
         try {
             memberService.modify(memberDto, modifyMemberForm.getEmail(), modifyMemberForm.getNickname());
-        } catch(DataIntegrityViolationException da) {
+        } catch (DataIntegrityViolationException da) {
             //닉네임이나 이메일이 이미 사용 중인 경우
             return "redirect:/member/modifyMember?errorMsg=%s".formatted(Ut.url.encode("이미 사용중인 이메일 혹은 닉네임입니다."));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return "redirect:/member/modifyMember?errorMsg=%s".formatted(Ut.url.encode("예기치 못한 오류가 발생했습니다.\n다시 시도하세요"));
         }
 

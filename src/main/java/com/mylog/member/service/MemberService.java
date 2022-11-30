@@ -6,16 +6,23 @@ import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
 import com.mylog.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    @Value("${custom.genFileDirPath}")
+    private String genFileDirPath;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 

@@ -103,4 +103,22 @@ public class MemberService {
     public boolean passwordConfirm(String oldPassword, MemberDto memberDto) {
         return passwordEncoder.matches(oldPassword, memberDto.getPassword());
     }
+
+    public void modifyProfileImg(MemberDto memberDto, MultipartFile profileImg) {
+        Member member = getByDto(memberDto);
+
+        String profileImgRelPath = "member/" + UUID.randomUUID().toString() + ".png";
+        File profileImgFile = new File(genFileDirPath + "/" + profileImgRelPath);
+
+        profileImgFile.mkdirs(); // 관련된 폴더가 혹시나 없다면 만들어준다.
+
+        try {
+            profileImg.transferTo(profileImgFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        member.setProfileImg(profileImgRelPath);
+
+        memberRepository.save(member);
+    }
 }

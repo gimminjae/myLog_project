@@ -13,6 +13,7 @@ import com.mylog.post.dto.PostDto;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,17 +21,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
+    @Value("${custom.genFileDirPath}")
+    private String genFileDirPath;
     private final MemberService memberService;
     private final MailService mailService;
     private final PostService postService;
@@ -206,5 +213,17 @@ public class MemberController {
 
 
         return "redirect:/member?msg=%s".formatted(Ut.url.encode("회원정보가 변경되었습니다!"));
+    }
+    @PostMapping("/modify/profileImg")
+    public String modifyProfileImg(Principal principal, @RequestParam("profileImg") MultipartFile profileImg) {
+        MemberDto memberDto = memberService.getByUsername(principal.getName());
+
+        try {
+            memberService.modifyProfileImg(memberDto, profileImg);
+        } catch(Exception e) {
+            return "redirect:/member?errorMsg=%s".formatted(Ut.url.encode("파일의 형식이 잘못되었거나\n 파일의 크기가 너무 큽니다."));
+        }
+
+        return "redirect:/member";
     }
 }

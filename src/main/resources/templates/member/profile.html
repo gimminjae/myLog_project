@@ -5,8 +5,9 @@
             <div class="lg:flex-row">
                 <div class="flex items-center">
                     <div class="avatar mr-4">
-                        <div class="w-24 mask mask-squircle">
-                            <img src="https://placeimg.com/192/192/people"/>
+                        <div class="w-24 mask mask-squircle border-2">
+                            <img th:if="${member.profileImg == null}" src="https://placeimg.com/192/192/people"/>
+                            <img class="profile-img" th:if="${member.profileImg != null}" th:src="@{|/gen/${member.profileImg}|}"/>
                         </div>
                     </div>
                     <div>
@@ -32,7 +33,7 @@
         <div class="modal-box relative">
             <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             <h1 class="text-3xl mb-3">프로필 이미지 변경</h1>
-            <form th:action="@{/modify/profileImg}" method="post">
+            <form th:action="@{/member/modify/profileImg}" method="post" enctype="multipart/form-data">
                 <input class="file-input file-input-bordered file-input-info" type="file"
                        name="profileImg" accept="image/png, image/gif, image/jpeg"/>
                 <button type="submit" class="btn btn-info btn-wide" style="float: right;">변경</button>

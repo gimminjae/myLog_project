@@ -23,40 +23,49 @@
             <a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{/member/modifyMember}">회원정보수정</a>
             <a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
         </div>
-    </div>
-
-
-    <div class="mx-auto" style="width: 70%;">
-        <table class="table table-zebra w-full">
-            <!-- head -->
-            <thead>
-            <tr>
-                <th class="text-center"><i class="fa-solid fa-list"></i></th>
-                <th style="width: 80%;"></th>
-                <th class="text-center"><i class="fa-solid fa-calendar-days"></i></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${postList}">
-                <td class="text-center"><i class="fa-regular fa-file"></i></td>
-                <td><a class="hover:underline hover:text-[red]" th:href="@{|/post/${post.id}|}">[[${post.subject}]]</a></td>
-                <td class="text-center" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 페이징처리 시작 -->
-    <div th:if="${!postList.isEmpty()}" class="flex justify-center mt-5">
-        <div class="btn-group">
-            <a th:each="page: ${#numbers.sequence(0, postList.totalPages-1)}"
-               th:if="${page >= postList.number-2 and page <= postList.number+2}"
-               th:classappend="${page == postList.number} ? 'btn-active'"
-               th:text="${page+1}" th:href="@{|?page=${page}&kw=${kw}|}"
-               class="btn"></a>
-
+        <br>
+        <!-- 글, 시리즈 -->
+        <div class="flex justify-center gap-3">
+            <button class="btn btn-wide">글</button>
+            <button class="btn btn-wide">시리즈</button>
+            <!--        <div class="flex justify-center">-->
+            <!--        </div>-->
         </div>
     </div>
-    <!-- 페이징처리 끝 -->
+    <div>
+        <div class="mx-auto" style="width: 70%;">
+            <table class="table table-zebra w-full">
+                <!-- head -->
+                <thead>
+                <tr>
+                    <th class="text-center"><i class="fa-solid fa-list"></i></th>
+                    <th style="width: 80%;"></th>
+                    <th class="text-center"><i class="fa-solid fa-calendar-days"></i></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${postList}">
+                    <td class="text-center"><i class="fa-regular fa-file"></i></td>
+                    <td><a class="hover:underline hover:text-[red]"
+                           th:href="@{|/post/${post.id}|}">[[${post.subject}]]</a></td>
+                    <td class="text-center" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 페이징처리 시작 -->
+        <div th:if="${!postList.isEmpty()}" class="flex justify-center mt-5">
+            <div class="btn-group">
+                <a th:each="page: ${#numbers.sequence(0, postList.totalPages-1)}"
+                   th:if="${page >= postList.number-2 and page <= postList.number+2}"
+                   th:classappend="${page == postList.number} ? 'btn-active'"
+                   th:text="${page+1}" th:href="@{|?page=${page}&kw=${kw}|}"
+                   class="btn"></a>
+
+            </div>
+        </div>
+        <!-- 페이징처리 끝 -->
+    </div>
 </div>
 </html>

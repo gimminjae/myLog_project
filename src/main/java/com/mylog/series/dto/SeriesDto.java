@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SeriesDto {
-    private String id;
+    private Long id;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private String subject;

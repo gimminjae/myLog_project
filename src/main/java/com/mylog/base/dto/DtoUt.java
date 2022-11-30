@@ -6,6 +6,8 @@ import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.entity.Post;
+import com.mylog.series.dto.SeriesDto;
+import com.mylog.series.entity.Series;
 
 public class DtoUt {
     public static PostDto toDto(Post post) {
@@ -41,6 +43,16 @@ public class DtoUt {
                 .memberName(answer.getMember().getNickname())
                 .memberUsername(answer.getMember().getUsername())
                 .postId(answer.getPost().getId())
+                .build();
+    }
+    public static SeriesDto toDto(Series series) {
+        return SeriesDto.builder()
+                .id(series.getId())
+                .createDate(series.getCreateDate())
+                .updateDate(series.getUpdateDate())
+                .subject(series.getSubject())
+//                .postDtoList(series.getPostList().stream().map(i -> DtoUt.toDto(i)).toList())
+                .memberDto(DtoUt.toDto(series.getMember()))
                 .build();
     }
 

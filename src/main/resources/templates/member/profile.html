@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
+    <input type="hidden" name="member_id" th:value="${member.id}">
     <div class="mb-5">
         <div class="flex justify-center">
             <div class="lg:flex-row">
@@ -26,13 +27,11 @@
         <br>
         <!-- 글, 시리즈 -->
         <div class="flex justify-center gap-3">
-            <button class="btn btn-wide">글</button>
-            <button class="btn btn-wide">시리즈</button>
-            <!--        <div class="flex justify-center">-->
-            <!--        </div>-->
+            <a class="btn btn-wide" th:href="@{/member}">글</a>
+            <a class="btn btn-wide" th:href="@{|/member?list=series|}">시리즈</a>
         </div>
     </div>
-    <div>
+    <div th:if="${postList != null}">
         <div class="mx-auto" style="width: 70%;">
             <table class="table table-zebra w-full">
                 <!-- head -->
@@ -66,6 +65,11 @@
             </div>
         </div>
         <!-- 페이징처리 끝 -->
+    </div>
+    <div th:if="${seriesList != null}">
+        <div th:each="series : ${seriesList}">
+            [[${series.subject}]]
+        </div>
     </div>
 </div>
 </html>

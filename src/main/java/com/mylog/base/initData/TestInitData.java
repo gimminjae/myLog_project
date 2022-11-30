@@ -4,6 +4,7 @@ import com.mylog.answer.service.AnswerService;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.service.PostService;
+import com.mylog.series.service.SeriesService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,8 @@ public class TestInitData {
     CommandLineRunner init(
             PostService postService,
             MemberService memberService,
-            AnswerService answerService
+            AnswerService answerService,
+            SeriesService seriesService
     ) {
         return args -> {
             memberService.create("user1", "user1", "min356812@naver.com", "minjjai");
@@ -59,6 +61,12 @@ public class TestInitData {
             answerService.create("answer7", postService.getById(12), memberDto2);
             answerService.create("answer8", postService.getById(12), memberDto);
             answerService.create("answer9", postService.getById(12), memberDto2);
+
+            seriesService.create("subject1", memberDto);
+            seriesService.create("subject2", memberDto);
+            seriesService.create("subject3", memberDto);
+            seriesService.create("subject4", memberDto);
+            seriesService.create("subject5", memberDto);
         };
     }
 }

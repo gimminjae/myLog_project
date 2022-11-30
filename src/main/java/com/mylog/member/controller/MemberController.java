@@ -11,6 +11,8 @@ import com.mylog.member.form.ModifyPasswordForm;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.service.PostService;
+import com.mylog.series.dto.SeriesDto;
+import com.mylog.series.service.SeriesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,6 +36,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MailService mailService;
     private final PostService postService;
+    private final SeriesService seriesService;
     //로그인 폼
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
@@ -125,9 +128,19 @@ public class MemberController {
     @GetMapping("")
     @PreAuthorize("isAuthenticated()")
     public String myPage(Principal principal, Model model,
+                         @RequestParam(value = "list", defaultValue = "") String list,
                          @RequestParam(value = "page", defaultValue = "0") int page,
                          @RequestParam(value = "kw", defaultValue = "") String kw) {
         MemberDto memberDto = memberService.getByUsername(principal.getName());
+
+        if(list.equals("series")) {
+            List<SeriesDto> seriesDtoList = seriesService.getByMember(memberDto);
+
+            model.addAttribute("seriesList", seriesDtoList);
+            model.addAttribute("member", memberDto);
+
+            return "member/profile";
+        }
 
         Page<PostDto> postDtoList = postService.getByMember(page, memberDto);
 

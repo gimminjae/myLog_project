@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -26,15 +28,21 @@ public class SeriesService {
     }
 
     public List<SeriesDto> getAll() {
-        return seriesRepository.findAll().stream().map(i -> DtoUt.toDto(i)).toList();
+//        Comparator<SeriesDto> comparator = (prod1, prod2) -> prod1.getCreateDate().compareTo(prod2.getCreateDate());
+
+        List<SeriesDto> seriesDtoList = seriesRepository.findAll().stream().map(i -> DtoUt.toDto(i)).sorted().toList();
+
+//        Collections.sort(seriesDtoList, comparator.reversed());
+
+        return seriesDtoList;
     }
 
     public SeriesDto getBySubject(String subject) {
         return DtoUt.toDto(seriesRepository.findBySubject(subject).orElse(null));
     }
 
-    public SeriesDto getByMember(MemberDto memberDto) {
-        return DtoUt.toDto(seriesRepository.findByMemberId(memberDto.getId()).orElse(null));
+    public List<SeriesDto> getByMember(MemberDto memberDto) {
+        return seriesRepository.findByMemberId(memberDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
     }
 
     public void modify(String subject, SeriesDto seriesDto) {

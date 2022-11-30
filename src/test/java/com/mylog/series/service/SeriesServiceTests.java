@@ -63,9 +63,9 @@ public class SeriesServiceTests {
         seriesService.create("subject1", memberDto);
 
         SeriesDto seriesDto1 = seriesService.getBySubject("subject1");
-        SeriesDto seriesDto2 = seriesService.getByMember(memberDto);
+        List<SeriesDto> seriesDtoList = seriesService.getByMember(memberDto);
 
-        assertThat(seriesDto1.getId()).isEqualTo(seriesDto2.getId());
+        assertThat(seriesDto1.getId()).isEqualTo(seriesDtoList.get(0).getId());
     }
     @Test
     @DisplayName("시리즈 수정")
@@ -74,13 +74,13 @@ public class SeriesServiceTests {
 
         seriesService.create("subject1", memberDto);
 
-        SeriesDto seriesDto1 = seriesService.getByMember(memberDto);
-        assertThat(seriesDto1.getSubject()).isEqualTo("subject1");
+        List<SeriesDto> seriesDtoList1 = seriesService.getByMember(memberDto);
+        assertThat(seriesDtoList1.get(0).getSubject()).isEqualTo("subject1");
 
-        seriesService.modify("modify subject", seriesDto1);
+        seriesService.modify("modify subject", seriesDtoList1.get(0));
 
-        SeriesDto seriesDto2 = seriesService.getByMember(memberDto);
-        assertThat(seriesDto2.getSubject()).isEqualTo("modify subject");
+        List<SeriesDto> seriesDtoList2 = seriesService.getByMember(memberDto);
+        assertThat(seriesDtoList2.get(0).getSubject()).isEqualTo("modify subject");
     }
     @Test
     @DisplayName("시리즈 삭제")

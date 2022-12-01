@@ -20,4 +20,9 @@ public class MemberDto {
     private String nickname;
     private String password;
     private String profileImg;
+    public String getProfileImgUrl() {
+        if (profileImg == null) return null;
+
+        return "/gen/" + profileImg;
+    }
 }

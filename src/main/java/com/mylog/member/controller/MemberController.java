@@ -2,12 +2,14 @@ package com.mylog.member.controller;
 
 import com.mylog.base.exception.DataNotFoundException;
 import com.mylog.base.util.Ut;
+import com.mylog.config.MemberContext;
 import com.mylog.mail.MailService;
 import com.mylog.mail.MailTO;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
 import com.mylog.member.form.ModifyMemberForm;
 import com.mylog.member.form.ModifyPasswordForm;
+import com.mylog.member.service.MemberSecurityService;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.service.PostService;
@@ -17,6 +19,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +48,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MailService mailService;
     private final PostService postService;
+
     //로그인 폼
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
@@ -215,14 +223,18 @@ public class MemberController {
         return "redirect:/member?msg=%s".formatted(Ut.url.encode("회원정보가 변경되었습니다!"));
     }
     @PostMapping("/modify/profileImg")
-    public String modifyProfileImg(Principal principal, @RequestParam("profileImg") MultipartFile profileImg) {
-        MemberDto memberDto = memberService.getByUsername(principal.getName());
+    public String modifyProfileImg(@AuthenticationPrincipal MemberContext memberContext,
+                                   @RequestParam("profileImg") MultipartFile profileImg) {
+        MemberDto memberDto = memberService.getByUsername(memberContext.getUsername());
 
         try {
             memberService.modifyProfileImg(memberDto, profileImg);
         } catch(Exception e) {
             return "redirect:/member?errorMsg=%s".formatted(Ut.url.encode("파일의 형식이 잘못되었거나\n 파일의 크기가 너무 큽니다."));
         }
+        MemberDto memberDto1 = memberService.getByUsername(memberContext.getUsername());
+
+        memberContext.setProfileImgUrl(memberDto1.getProfileImgUrl());
 
         return "redirect:/member";
     }

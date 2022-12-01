@@ -6,7 +6,15 @@
                 <div class="flex items-center">
                     <div class="avatar mr-4">
                         <div class="w-24 mask mask-squircle border-2">
-                            <img th:if="${member.profileImg == null}" src="https://placeimg.com/192/192/people"/>
+                            <style>
+                                .profile-img {
+                                    width:100px;
+                                    height:100px;
+                                    object-fit:cover;
+                                    border-radius:10px;
+                                }
+                            </style>
+                            <img class="profile-img" th:if="${member.profileImg == null}" src="https://placeimg.com/192/192/people"/>
                             <img class="profile-img" th:if="${member.profileImg != null}" th:src="@{|/gen/${member.profileImg}|}"/>
                         </div>
                     </div>

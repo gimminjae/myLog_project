@@ -5,21 +5,29 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mylog.base.dto.RsData;
 import com.mylog.config.AppConfig;
+import groovy.grape.IvyGrabRecord;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Ut {
+    public static class file {
+        public static String getExt(String filename) {
+            return Optional.ofNullable(filename)
+                    .filter(f -> f.contains("."))
+                    .map(f -> f.substring(filename.lastIndexOf(".") + 1))
+                    .orElse("");
+        }
+    };
+
     public static class date {
         public static int getEndDayOf(int year, int month) {
             String yearMonth = year + "-" + "%02d".formatted(month);
@@ -41,6 +49,11 @@ public class Ut {
 
         public static LocalDateTime parse(String dateText) {
             return parse("yyyy-MM-dd HH:mm:ss.SSSSSS", dateText);
+        }
+
+        public static String getCurrentDateFormatted(String pattern) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            return simpleDateFormat.format(new Date());
         }
     }
 

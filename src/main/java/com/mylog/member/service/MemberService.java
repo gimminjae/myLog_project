@@ -2,6 +2,7 @@ package com.mylog.member.service;
 
 import com.mylog.base.dto.DtoUt;
 import com.mylog.base.exception.DataNotFoundException;
+import com.mylog.base.util.Ut;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
 import com.mylog.member.repository.MemberRepository;
@@ -107,16 +108,22 @@ public class MemberService {
     public void modifyProfileImg(MemberDto memberDto, MultipartFile profileImg) {
         Member member = getByDto(memberDto);
 
-        String profileImgRelPath = "member/" + UUID.randomUUID().toString() + ".png";
-        File profileImgFile = new File(genFileDirPath + "/" + profileImgRelPath);
+        String profileImgDirName = "member/" + Ut.date.getCurrentDateFormatted("yyyy_MM_dd");
 
-        profileImgFile.mkdirs(); // 관련된 폴더가 혹시나 없다면 만들어준다.
+        String ext = Ut.file.getExt(profileImg.getOriginalFilename());
 
+        String fileName = UUID.randomUUID() + "." + ext;
+        String profileImgDirPath = genFileDirPath + "/" + profileImgDirName;
+        String profileImgFilePath = profileImgDirPath + "/" + fileName;
+
+        new File(profileImgDirPath).mkdirs(); // 폴더가 혹시나 없다면 만들어준다.
         try {
-            profileImg.transferTo(profileImgFile);
+            profileImg.transferTo(new File(profileImgFilePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        String profileImgRelPath = profileImgDirName + "/" + fileName;
+
         member.setProfileImg(profileImgRelPath);
 
         memberRepository.save(member);

@@ -22,3 +22,4 @@ spring:
       ddl-auto: create
 custom:
   genFileDirPath: /Users/gimminjae/Desktop/project/temp/myLog
+#  genFileDirPath: /myLog/temp/image

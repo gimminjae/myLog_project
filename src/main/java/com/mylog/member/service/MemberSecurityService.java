@@ -1,5 +1,6 @@
 package com.mylog.member.service;
 
+import com.mylog.config.MemberContext;
 import com.mylog.member.entity.Member;
 import com.mylog.member.repository.MemberRepository;
 import com.mylog.member.role.MemberRole;
@@ -34,6 +35,6 @@ public class MemberSecurityService implements UserDetailsService {
         } else  {
             authorityList.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         }
-        return new User(member.getUsername(), member.getPassword(), authorityList);
+        return new MemberContext(member, authorityList);
     }
 }

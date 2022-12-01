@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   profiles:
     active: dev, mail
   thymeleaf:
@@ -18,4 +22,5 @@ spring:
     hibernate:
       ddl-auto: update
 custom:
+  genFileDirPath: /Users/gimminjae/Desktop/project/temp/myLog
 

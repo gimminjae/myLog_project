@@ -2,38 +2,53 @@ package com.mylog.member.controller;
 
 import com.mylog.base.exception.DataNotFoundException;
 import com.mylog.base.util.Ut;
+import com.mylog.config.MemberContext;
 import com.mylog.mail.MailService;
 import com.mylog.mail.MailTO;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.form.MemberForm;
 import com.mylog.member.form.ModifyMemberForm;
 import com.mylog.member.form.ModifyPasswordForm;
+import com.mylog.member.service.MemberSecurityService;
 import com.mylog.member.service.MemberService;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
+    @Value("${custom.genFileDirPath}")
+    private String genFileDirPath;
     private final MemberService memberService;
     private final MailService mailService;
     private final PostService postService;
+
     //로그인 폼
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
@@ -188,7 +203,7 @@ public class MemberController {
     public String modifyMember(Principal principal,
                                @Valid ModifyMemberForm modifyMemberForm, BindingResult bindingResult) {
         //빈 항목이 있을 경우
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return "redirect:/member/modifyMember?errorMsg=%s".formatted(Ut.url.encode(errors.get(0)));
         }
@@ -197,14 +212,30 @@ public class MemberController {
         //회원정보 수정 로직
         try {
             memberService.modify(memberDto, modifyMemberForm.getEmail(), modifyMemberForm.getNickname());
-        } catch(DataIntegrityViolationException da) {
+        } catch (DataIntegrityViolationException da) {
             //닉네임이나 이메일이 이미 사용 중인 경우
             return "redirect:/member/modifyMember?errorMsg=%s".formatted(Ut.url.encode("이미 사용중인 이메일 혹은 닉네임입니다."));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return "redirect:/member/modifyMember?errorMsg=%s".formatted(Ut.url.encode("예기치 못한 오류가 발생했습니다.\n다시 시도하세요"));
         }
 
 
         return "redirect:/member?msg=%s".formatted(Ut.url.encode("회원정보가 변경되었습니다!"));
+    }
+    @PostMapping("/modify/profileImg")
+    public String modifyProfileImg(@AuthenticationPrincipal MemberContext memberContext,
+                                   @RequestParam("profileImg") MultipartFile profileImg) {
+        MemberDto memberDto = memberService.getByUsername(memberContext.getUsername());
+
+        try {
+            memberService.modifyProfileImg(memberDto, profileImg);
+        } catch(Exception e) {
+            return "redirect:/member?errorMsg=%s".formatted(Ut.url.encode("파일의 형식이 잘못되었거나\n 파일의 크기가 너무 큽니다."));
+        }
+        MemberDto memberDto1 = memberService.getByUsername(memberContext.getUsername());
+
+        memberContext.setProfileImgUrl(memberDto1.getProfileImgUrl());
+
+        return "redirect:/member";
     }
 }

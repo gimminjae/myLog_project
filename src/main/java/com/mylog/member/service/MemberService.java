@@ -2,20 +2,28 @@ package com.mylog.member.service;
 
 import com.mylog.base.dto.DtoUt;
 import com.mylog.base.exception.DataNotFoundException;
+import com.mylog.base.util.Ut;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
 import com.mylog.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    @Value("${custom.genFileDirPath}")
+    private String genFileDirPath;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
@@ -95,5 +103,29 @@ public class MemberService {
 
     public boolean passwordConfirm(String oldPassword, MemberDto memberDto) {
         return passwordEncoder.matches(oldPassword, memberDto.getPassword());
+    }
+
+    public void modifyProfileImg(MemberDto memberDto, MultipartFile profileImg) {
+        Member member = getByDto(memberDto);
+
+        String profileImgDirName = "member/" + Ut.date.getCurrentDateFormatted("yyyy_MM_dd");
+
+        String ext = Ut.file.getExt(profileImg.getOriginalFilename());
+
+        String fileName = UUID.randomUUID() + "." + ext;
+        String profileImgDirPath = genFileDirPath + "/" + profileImgDirName;
+        String profileImgFilePath = profileImgDirPath + "/" + fileName;
+
+        new File(profileImgDirPath).mkdirs(); // 폴더가 혹시나 없다면 만들어준다.
+        try {
+            profileImg.transferTo(new File(profileImgFilePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String profileImgRelPath = profileImgDirName + "/" + fileName;
+
+        member.setProfileImg(profileImgRelPath);
+
+        memberRepository.save(member);
     }
 }

@@ -32,6 +32,13 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     private String email;
 
-//    @ManyToMany
+    private String profileImg;
+
+    //    @ManyToMany
 //    private List<Post> likes;
+    public String getProfileImgUrl() {
+        if (profileImg == null) return null;
+
+        return "/gen/" + profileImg;
+    }
 }

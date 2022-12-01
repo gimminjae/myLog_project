@@ -5,8 +5,17 @@
             <div class="lg:flex-row">
                 <div class="flex items-center">
                     <div class="avatar mr-4">
-                        <div class="w-24 mask mask-squircle">
-                            <img src="https://placeimg.com/192/192/people"/>
+                        <div class="w-24 mask mask-squircle border-2">
+                            <style>
+                                .profile-img {
+                                    width:100px;
+                                    height:100px;
+                                    object-fit:cover;
+                                    border-radius:10px;
+                                }
+                            </style>
+                            <img class="profile-img" th:if="${member.profileImg == null}" src="https://placeimg.com/192/192/people"/>
+                            <img class="profile-img" th:if="${member.profileImg != null}" th:src="@{|/gen/${member.profileImg}|}"/>
                         </div>
                     </div>
                     <div>
@@ -20,8 +29,23 @@
             </div>
         </div>
         <div class="float-right">
+            <label class="text-gray-500 hover:underline hover:text-[red]" for="my-modal-3" style="cursor:pointer;">프로필 이미지 수정</label>
             <a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{/member/modifyMember}">회원정보수정</a>
             <a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
+        </div>
+    </div>
+
+    <!-- Put this part before </body> tag -->
+    <input type="checkbox" id="my-modal-3" class="modal-toggle"/>
+    <div class="modal">
+        <div class="modal-box relative">
+            <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <h1 class="text-3xl mb-3">프로필 이미지 변경</h1>
+            <form th:action="@{/member/modify/profileImg}" method="post" enctype="multipart/form-data">
+                <input class="file-input file-input-bordered file-input-info" type="file"
+                       name="profileImg" accept="image/png, image/gif, image/jpeg"/>
+                <button type="submit" class="btn btn-info btn-wide" style="float: right;">변경</button>
+            </form>
         </div>
     </div>
 
@@ -39,7 +63,8 @@
             <tbody>
             <tr th:each="post : ${postList}">
                 <td class="text-center"><i class="fa-regular fa-file"></i></td>
-                <td><a class="hover:underline hover:text-[red]" th:href="@{|/post/${post.id}|}">[[${post.subject}]]</a></td>
+                <td><a class="hover:underline hover:text-[red]" th:href="@{|/post/${post.id}|}">[[${post.subject}]]</a>
+                </td>
                 <td class="text-center" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
             </tbody>

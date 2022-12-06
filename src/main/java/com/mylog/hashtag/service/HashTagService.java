@@ -1,9 +1,12 @@
 package com.mylog.hashtag.service;
 
+import com.mylog.base.dto.DtoUt;
+import com.mylog.hashtag.dto.HashTagDto;
 import com.mylog.hashtag.entity.HashTag;
 import com.mylog.hashtag.repository.HashTagRepository;
 import com.mylog.keyword.entity.Keyword;
 import com.mylog.keyword.service.KeywordService;
+import com.mylog.post.dto.PostDto;
 import com.mylog.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,5 +47,9 @@ public class HashTagService {
         hashTagRepository.save(hashTag);
 
         return hashTag;
+    }
+
+    public List<HashTagDto> getByPost(PostDto postDto) {
+        return hashTagRepository.findByPostId(postDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
     }
 }

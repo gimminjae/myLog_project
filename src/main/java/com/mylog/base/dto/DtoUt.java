@@ -2,12 +2,29 @@ package com.mylog.base.dto;
 
 import com.mylog.answer.dto.AnswerDto;
 import com.mylog.answer.entity.Answer;
+import com.mylog.hashtag.dto.HashTagDto;
+import com.mylog.hashtag.entity.HashTag;
+import com.mylog.keyword.dto.KeywordDto;
+import com.mylog.keyword.entity.Keyword;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.entity.Member;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.entity.Post;
 
 public class DtoUt {
+    public static HashTagDto toDto(HashTag hashTag) {
+        return HashTagDto.builder()
+                .id(hashTag.getId())
+                .keywordDto(toDto(hashTag.getKeyword()))
+                .postDto(toDto(hashTag.getPost()))
+                .build();
+    }
+    public static KeywordDto toDto(Keyword keyword) {
+        return KeywordDto.builder()
+                .id(keyword.getId())
+                .content(keyword.getContent())
+                .build();
+    }
     public static PostDto toDto(Post post) {
         return PostDto.builder()
                 .id(post.getId())

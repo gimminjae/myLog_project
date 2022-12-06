@@ -28,7 +28,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     //회원 생성
-    public void create(String username, String password, String email, String nickname) {
+    public MemberDto create(String username, String password, String email, String nickname) {
         Member member = Member.builder()
                 .nickname(nickname)
                 .username(username)
@@ -37,6 +37,8 @@ public class MemberService {
                 .email(email)
                 .build();
         memberRepository.save(member);
+
+        return DtoUt.toDto(member);
     }
 
     //모든 회원 조회

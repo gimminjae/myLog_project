@@ -2,7 +2,7 @@ package com.mylog.hashtag.entity;
 
 import com.mylog.base.entity.BaseEntity;
 import com.mylog.post.entity.Post;
-import javassist.compiler.ast.Keyword;
+import com.mylog.keyword.entity.Keyword;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import net.bytebuddy.implementation.bind.annotation.Super;

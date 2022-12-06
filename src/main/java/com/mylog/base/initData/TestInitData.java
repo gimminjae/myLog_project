@@ -34,8 +34,8 @@ public class TestInitData {
             postService.create("subject8", "content8", memberDto);
             postService.create("subject9", "content9", memberDto);
             postService.create("subject10", "content10", memberDto);
-            postService.create("subject11", "content11", memberDto);
-            postService.create("subject12", "content12", memberDto);
+            postService.create("subject11", "content11", "#코딩 #스프링", memberDto);
+            postService.create("subject12", "content12", "#자바 #스프링", memberDto);
 
             postService.create("subject11", "content1", memberDto2);
             postService.create("subject21", "content2", memberDto2);

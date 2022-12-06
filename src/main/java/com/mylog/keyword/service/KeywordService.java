@@ -9,4 +9,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KeywordService {
     private final KeywordRepository keywordRepository;
+
+    public Keyword save(String keywordContent) {
+        Keyword opKeyword = keywordRepository.findByContent(keywordContent).orElse(null);
+
+        if(opKeyword != null) return opKeyword;
+
+        Keyword keyword = Keyword.builder()
+                .content(keywordContent)
+                .build();
+        keywordRepository.save(keyword);
+
+        return keyword;
+    }
 }

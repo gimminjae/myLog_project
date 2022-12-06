@@ -51,10 +51,10 @@ public class PostController {
     public String postWrite(Principal principal,
                             @RequestParam("subject") String subject,
                             @RequestParam("content") String content,
-                            @RequestParam("tagString") String tagString) {
+                            @RequestParam("tagString") String tagStr) {
 
         MemberDto memberDto = memberService.getByUsername(principal.getName());
-        PostDto postDto = postService.create(subject, content, memberDto);
+        PostDto postDto = postService.create(subject, content, tagStr,memberDto);
 
         return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 작성되었습니다!"));
     }

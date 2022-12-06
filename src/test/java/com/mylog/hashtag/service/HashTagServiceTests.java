@@ -1,5 +1,6 @@
 package com.mylog.hashtag.service;
 
+import com.mylog.base.dto.DtoUt;
 import com.mylog.hashtag.dto.HashTagDto;
 import com.mylog.member.dto.MemberDto;
 import com.mylog.member.service.MemberService;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -22,6 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles({"mail", "test"})
 public class HashTagServiceTests {
     @Autowired
     private PostService postService;
@@ -37,66 +40,45 @@ public class HashTagServiceTests {
 
     TransactionStatus status;
 
-    @BeforeEach
-    void beforeEach() {
-        // 트랜잭션 시작
-        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-    }
-
-    @AfterEach
-    void afterEach() {
-        // 트랜잭션 롤백
-        transactionManager.rollback(status);
-    }
+//    @BeforeEach
+//    void beforeEach() {
+//        // 트랜잭션 시작
+//        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+//    }
+//
+//    @AfterEach
+//    void afterEach() {
+//        // 트랜잭션 롤백
+//        transactionManager.rollback(status);
+//    }
 
     @Test
     @DisplayName("글 작성, 해시태그 2개 저장")
     void test1() {
-        MemberDto memberDto = memberService.create("user3", "user3", "test@test.com", "nick");
-        PostDto postDto = postService.create("subject", "content", "#자바 #스프링", memberDto);
+        MemberDto memberDto = memberService.getByUsername("user1");
+        PostDto postDto = postService.getById(12L);
 
         List<HashTagDto> hashTagDtos = hashTagService.getByPost(postDto);
         assertThat(hashTagDtos.size()).isEqualTo(2);
 
         List<PostDto> postDtos = postService.getAll();
-        assertThat(postDtos.size()).isEqualTo(1);
+        assertThat(postDtos.size()).isEqualTo(24);
     }
     @Test
-    @DisplayName("글 조회(by id, subject)")
+    @DisplayName("글의 해시태그 수정 시, 기존 해시태그의 개수 혹은 내용이 바뀐다.")
     void test2() {
-        PostDto postDto = postService.create("subject", "content");
+        MemberDto memberDto = memberService.getByUsername("user1");
+        PostDto postDto = postService.getById(12L);
 
-        PostDto postDto1 = postService.getById(postDto.getId());
-        assertThat(postDto1.getSubject()).isEqualTo("subject");
+        String tags = "#java";
 
-        PostDto postDto2 = postService.getBySubject(postDto.getSubject());
-        assertThat(postDto2.getSubject()).isEqualTo("subject");
-        assertThat(postDto2.getContent()).isEqualTo("content");
-    }
-    @Test
-    @DisplayName("글 수정")
-    void test3() {
-        PostDto postDto = postService.create("subject", "content");
+        List<HashTagDto> hashTagDtos = hashTagService.getByPost(postDto);
+        assertThat(hashTagDtos.size()).isEqualTo(2);
 
-        postService.modify(postDto, "modify subject", "modify content");
+        hashTagService.applyHashTags(DtoUt.toEntity(postDto), tags);
 
-        PostDto postDto1 = postService.getById(postDto.getId());
-
-        assertThat(postDto1.getSubject()).isEqualTo("modify subject");
-        assertThat(postDto1.getContent()).isEqualTo("modify content");
-    }
-    @Test
-    @DisplayName("글 삭제")
-    void test4() {
-        PostDto postDto = postService.create("subject", "content");
-
-        List<PostDto> postDtos = postService.getAll();
-        assertThat(postDtos.size()).isEqualTo(1);
-
-        postService.delete(postDto);
-
-        postDtos = postService.getAll();
-        assertThat(postDtos.size()).isEqualTo(0);
+        List<HashTagDto> hashTagDto2s = hashTagService.getByPost(postDto);
+        assertThat(hashTagDto2s.size()).isEqualTo(1);
     }
 }
 

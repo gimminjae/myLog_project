@@ -11,6 +11,7 @@ import com.mylog.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,8 @@ public class HashTagService {
 
     //해시태그 글에 적용
     public void applyHashTags(Post post, String tagStr) {
+        List<HashTag> oldHashTags = getHashTags(post);
+
         List<String> keywords = Arrays.stream(tagStr.split("#"))
                 .map(s -> s.trim())
                 .filter(s -> s.length() > 0)
@@ -30,6 +33,26 @@ public class HashTagService {
         keywords.forEach(keyword -> {
             saveHashTag(post, keyword);
         });
+
+        List<HashTag> deletedList = new ArrayList<>();
+
+
+        for(HashTag hashTag : oldHashTags) {
+            boolean contains = keywords.stream().anyMatch(s -> s.equals(hashTag.getKeyword().getContent()));
+
+            if(contains == false) deletedList.add(hashTag);
+        }
+        deletedList.forEach(hashTag -> delete(hashTag));
+
+        keywords.forEach(keyword -> saveHashTag(post, keyword));
+    }
+
+    private void delete(HashTag hashTag) {
+        hashTagRepository.delete(hashTag);
+    }
+
+    private List<HashTag> getHashTags(Post post) {
+        return hashTagRepository.findByPostId(post.getId());
     }
 
     //키워드(해시태그) 저장

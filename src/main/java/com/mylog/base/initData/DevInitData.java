@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"mail", "test"})
-public class TestInitData {
+@Profile({"dev"})
+public class DevInitData {
     @Bean
     CommandLineRunner init(
             PostService postService,

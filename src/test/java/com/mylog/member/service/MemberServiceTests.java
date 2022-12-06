@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -18,6 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles({"mail", "test"})
 public class MemberServiceTests {
     @Autowired
     private MemberService memberService;
@@ -30,13 +32,6 @@ public class MemberServiceTests {
     void beforeEach() {
         // 트랜잭션 시작
         status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-
-        String username = "user1";
-        String password = "user1";
-        String email = "test12@test.com";
-        String nickname = "user1";
-
-        memberService.create(username, password, email, nickname);
     }
 
     @AfterEach
@@ -45,21 +40,14 @@ public class MemberServiceTests {
         transactionManager.rollback(status);
     }
     @Test
-    @DisplayName("회원 생성")
-    void test1() {
-
-        List<MemberDto> memberDtoList = memberService.getAll();
-        assertThat(memberDtoList.size()).isEqualTo(1);
-    }
-    @Test
     @DisplayName("회원 조회(by email, username, id)")
     void test2() {
 
         MemberDto memberDto2 = memberService.getByUsername("user1");
-        MemberDto memberDto3 = memberService.getByEmail("test12@test.com");
+        MemberDto memberDto3 = memberService.getByEmail("min356812@naver.com");
 
-        assertThat(memberDto2.getNickname()).isEqualTo("user1");
-        assertThat(memberDto3.getNickname()).isEqualTo("user1");
+        assertThat(memberDto2.getNickname()).isEqualTo("minjjai");
+        assertThat(memberDto3.getNickname()).isEqualTo("minjjai");
     }
     @Test
     @DisplayName("회원 정보 수정(email, nickname 등)")
@@ -76,12 +64,12 @@ public class MemberServiceTests {
     @DisplayName("회원 삭제")
     void test4() {
         List<MemberDto> memberDtoList = memberService.getAll();
-        assertThat(memberDtoList.size()).isEqualTo(1);
+        assertThat(memberDtoList.size()).isEqualTo(2);
 
         MemberDto memberDto = memberService.getByUsername("user1");
         memberService.delete(memberDto);
 
-        memberDtoList = memberService.getAll();
-        assertThat(memberDtoList.size()).isEqualTo(0);
+        List<MemberDto> memberDtoList2 = memberService.getAll();
+        assertThat(memberDtoList2.size()).isEqualTo(1);
     }
 }

@@ -49,9 +49,6 @@ public class AnswerService {
         return answerRepository.findByPostId(postDto.getId()).stream().map(i -> DtoUt.toDto(i)).toList();
     }
 
-    public AnswerDto getByMember(MemberDto memberDto) {
-        return DtoUt.toDto(answerRepository.findByMemberId(memberDto.getId()).orElse(null));
-    }
 
     //수정 메서드
     public void modify(AnswerDto answerDto, String content) {

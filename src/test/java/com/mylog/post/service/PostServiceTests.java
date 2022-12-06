@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles({"mail", "test"})
 public class PostServiceTests {
     @Autowired
     private PostService postService;
@@ -42,30 +44,22 @@ public class PostServiceTests {
     }
 
     @Test
-    @DisplayName("글 작성")
-    void test1() {
-
-        PostDto postDto = postService.create("subject", "content");
-
-        List<PostDto> postDtos = postService.getAll();
-        assertThat(postDtos.size()).isEqualTo(1);
-    }
-    @Test
     @DisplayName("글 조회(by id, subject)")
     void test2() {
-        PostDto postDto = postService.create("subject", "content");
+        PostDto postDto1 = postService.getById(1L);
+        assertThat(postDto1.getSubject()).isEqualTo("subject1");
 
-        PostDto postDto1 = postService.getById(postDto.getId());
-        assertThat(postDto1.getSubject()).isEqualTo("subject");
+        PostDto postDto2 = postService.getBySubject("subject2");
+        assertThat(postDto2.getSubject()).isEqualTo("subject2");
+        assertThat(postDto2.getContent()).isEqualTo("content2");
 
-        PostDto postDto2 = postService.getBySubject(postDto.getSubject());
-        assertThat(postDto2.getSubject()).isEqualTo("subject");
-        assertThat(postDto2.getContent()).isEqualTo("content");
+        List<PostDto> postDtos = postService.getAll();
+        assertThat(postDtos.size()).isEqualTo(24);
     }
     @Test
     @DisplayName("글 수정")
     void test3() {
-        PostDto postDto = postService.create("subject", "content");
+        PostDto postDto = postService.getById(1L);
 
         postService.modify(postDto, "modify subject", "modify content");
 
@@ -77,14 +71,12 @@ public class PostServiceTests {
     @Test
     @DisplayName("글 삭제")
     void test4() {
-        PostDto postDto = postService.create("subject", "content");
-
         List<PostDto> postDtos = postService.getAll();
-        assertThat(postDtos.size()).isEqualTo(1);
+        assertThat(postDtos.size()).isEqualTo(24);
 
-        postService.delete(postDto);
+        postService.delete(postDtos.get(0));
 
         postDtos = postService.getAll();
-        assertThat(postDtos.size()).isEqualTo(0);
+        assertThat(postDtos.size()).isEqualTo(23);
     }
 }

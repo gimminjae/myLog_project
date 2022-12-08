@@ -28,10 +28,16 @@
                 </div>
             </div>
         </div>
-        <div class="float-right">
-            <label class="text-gray-500 hover:underline hover:text-[red]" for="my-modal-3" style="cursor:pointer;">프로필 이미지 수정</label>
-            <a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{/member/modifyMember}">회원정보수정</a>
-            <a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{/member/modifyPassword}">비밀번호 변경</a>
+        <div class="float-right" sec:authorize="isAuthenticated()">
+            <label class="text-gray-500 hover:underline hover:text-[red]"
+                   th:if="${#authentication.getPrincipal().getUsername() == member.username}"
+                   for="my-modal-3" style="cursor:pointer;">프로필 이미지 수정</label>
+            <a class="text-gray-500 hover:underline hover:text-[red]"
+               th:if="${#authentication.getPrincipal().getUsername() == member.username}"
+               th:href="@{/member/modifyMember}">회원정보수정</a>
+            <a class="text-gray-500 hover:underline hover:text-[red]"
+               th:if="${#authentication.getPrincipal().getUsername() == member.username}"
+               th:href="@{/member/modifyPassword}">비밀번호 변경</a>
         </div>
     </div>
 

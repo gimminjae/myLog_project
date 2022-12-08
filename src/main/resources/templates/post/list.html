@@ -10,7 +10,7 @@
                         <a th:href="@{|/post/${post.id}|}" class="hover:underline">[[${post.subject}]]</a>
                         <div class="badge badge-secondary">NEW</div>
                     </h2>
-                    <a th:href="@{|/member/${post.memberDto.nickname}|}" class="text-gray-500 hover:underline hover:text-[red]">by [[${post.memberDto.nickname}]]</a>
+                    <a th:href="@{|/member/${post.memberDto.username}|}" class="text-gray-500 hover:underline hover:text-[red]">by [[${post.memberDto.nickname}]]</a>
                     </div>
 <!--                    <div style="white-space: pre-line;" th:if="${post.content.length >= 50}"-->
 <!--                         th:text="${#strings.substring(post.content, 0, 30)}">-->

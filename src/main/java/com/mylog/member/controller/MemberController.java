@@ -137,12 +137,12 @@ public class MemberController {
     }
 
     //마이페이지
-    @GetMapping("")
-    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{username}")
     public String myPage(Principal principal, Model model,
+                         @PathVariable("username") String username,
                          @RequestParam(value = "page", defaultValue = "0") int page,
                          @RequestParam(value = "kw", defaultValue = "") String kw) {
-        MemberDto memberDto = memberService.getByUsername(principal.getName());
+        MemberDto memberDto = memberService.getByUsername(username);
 
         Page<PostDto> postDtoList = postService.getByMember(page, memberDto);
 
@@ -186,7 +186,7 @@ public class MemberController {
        //비밀번호 변경
         memberService.modifyPassword(memberDto, modifyPasswordForm.getNewPassword1());
 
-        return "redirect:/member?msg=%s".formatted(Ut.url.encode("비밀번호가 변경되었습니다."));
+        return "redirect:/member/%s?msg=%s".formatted(memberDto.getUsername(), Ut.url.encode("비밀번호가 변경되었습니다."));
     }
     @GetMapping("/modifyMember")
     @PreAuthorize("isAuthenticated()")
@@ -220,7 +220,7 @@ public class MemberController {
         }
 
 
-        return "redirect:/member?msg=%s".formatted(Ut.url.encode("회원정보가 변경되었습니다!"));
+        return "redirect:/member/%s?msg=%s".formatted(memberDto.getUsername(), Ut.url.encode("회원정보가 변경되었습니다!"));
     }
     @PostMapping("/modify/profileImg")
     public String modifyProfileImg(@AuthenticationPrincipal MemberContext memberContext,
@@ -236,6 +236,6 @@ public class MemberController {
 
         memberContext.setProfileImgUrl(memberDto1.getProfileImgUrl());
 
-        return "redirect:/member";
+        return "redirect:/member/%s?msg=%s".formatted(memberDto1.getUsername(), Ut.url.encode("프로필 이미지가 변경되었습니다."));
     }
 }

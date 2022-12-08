@@ -51,7 +51,7 @@ public class PostController {
     public String postWrite(Principal principal,
                             @RequestParam("subject") String subject,
                             @RequestParam("content") String content,
-                            @RequestParam("tagString") String tagStr) {
+                            @RequestParam("tags") String tagStr) {
 
         MemberDto memberDto = memberService.getByUsername(principal.getName());
         PostDto postDto = postService.create(subject, content, tagStr,memberDto);
@@ -85,9 +85,9 @@ public class PostController {
     @PostMapping("/modify/{id}")
     @PreAuthorize("isAuthenticated()")
     public String postModify(@PathVariable("id") long id,
-                             @RequestParam String subject, @RequestParam String tagString, @RequestParam String content) {
+                             @RequestParam("subject") String subject, @RequestParam("tags") String tags, @RequestParam("content") String content) {
         PostDto postDto = postService.getById(id);
-        postService.modify(postDto, subject, content);
+        postService.modify(postDto, subject, content, tags);
 
         return "redirect:/post/%d?msg=%s".formatted(postDto.getId(), Ut.url.encode("글이 수정되었습니다!"));
     }

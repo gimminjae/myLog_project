@@ -11,22 +11,28 @@ import com.mylog.member.entity.Member;
 import com.mylog.post.dto.PostDto;
 import com.mylog.post.entity.Post;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class DtoUt {
     public static HashTagDto toDto(HashTag hashTag) {
         return HashTagDto.builder()
                 .id(hashTag.getId())
                 .keywordDto(toDto(hashTag.getKeyword()))
-                .postDto(toDto(hashTag.getPost()))
                 .build();
     }
+
     public static KeywordDto toDto(Keyword keyword) {
         return KeywordDto.builder()
                 .id(keyword.getId())
                 .content(keyword.getContent())
                 .build();
     }
+
     public static PostDto toDto(Post post) {
-        return PostDto.builder()
+        PostDto postDto = PostDto.builder()
                 .id(post.getId())
                 .createDate(post.getCreateDate())
                 .updateDate(post.getUpdateDate())
@@ -34,9 +40,17 @@ public class DtoUt {
                 .content(post.getContent())
                 .contentHtml(post.getContentHtml())
                 .memberDto(DtoUt.toDto(post.getMember()))
+                .hashTags(null)
 //                .likes(post.getLikes())
                 .build();
+        if(post.getHashTagList() == null) return postDto;
+
+        postDto.setHashTagList(post.getHashTagList());
+
+        return postDto;
     }
+
+
     public static MemberDto toDto(Member member) {
         return MemberDto.builder()
                 .id(member.getId())
@@ -49,6 +63,7 @@ public class DtoUt {
                 .profileImg(member.getProfileImg())
                 .build();
     }
+
     public static AnswerDto toDto(Answer answer) {
         return AnswerDto.builder()
                 .id(answer.getId())
@@ -74,6 +89,7 @@ public class DtoUt {
                 .profileImg(memberDto.getProfileImg())
                 .build();
     }
+
     public static Post toEntity(PostDto postDto) {
         return Post.builder()
                 .id(postDto.getId())

@@ -103,6 +103,17 @@ public class PostService {
 
         return DtoUt.toDto(post);
     }
+    public PostDto modify(PostDto postDto, String subject, String content, String tagStr) {
+        PostDto postDto2 = modify(postDto, subject, content);
+
+        Post post = findById(postDto.getId());
+
+        postRepository.save(post);
+
+        hashTagService.applyHashTags(post, tagStr);
+
+        return DtoUt.toDto(post);
+    }
 
     public void delete(PostDto postDto) {
         Post post = findById(postDto.getId());

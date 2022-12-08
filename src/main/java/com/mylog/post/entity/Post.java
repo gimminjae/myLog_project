@@ -2,6 +2,7 @@ package com.mylog.post.entity;
 
 import com.mylog.answer.entity.Answer;
 import com.mylog.base.entity.BaseEntity;
+import com.mylog.hashtag.entity.HashTag;
 import com.mylog.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,4 +37,7 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<HashTag> hashTagList;
 }

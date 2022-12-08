@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 @Profile({"dev"})
 public class DevInitData {
     @Bean
-    CommandLineRunner init(
+    CommandLineRunner devInit(
             PostService postService,
             MemberService memberService,
             AnswerService answerService

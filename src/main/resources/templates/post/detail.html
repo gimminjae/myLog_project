@@ -18,6 +18,12 @@
             </ul>
         </div>
     </div>
+    <div>
+        <a class="badge badge-outline badge-lg hover:underline hover:text-[red] mr-3"
+           th:href="@{|/member/${post.memberDto.id}|}"
+           th:each="tag : ${post.hashTags}">
+            #[[${tag.keyword.content}]]</a>
+    </div>
     <div class="flex justify-center">
         <div style="width: 80%;">
             <div class="toast-ui-viewer">

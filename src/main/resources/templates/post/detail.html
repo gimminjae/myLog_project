@@ -1,28 +1,34 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
     <div th:replace="common/toastEditorFragment :: editorFragment"></div>
-    <div class="mb-3">
-        <p class="text-5xl">[[${post.subject}]]</p>
-    </div>
-    <div class="justify-between flex">
-        <div><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/member/${post.memberDto.id}|}">by
-            [[${post.memberDto.nickname}]]</a></div>
-        <div sec:authorize="isAuthenticated()"
-             th:if="${post.memberDto.getUsername() == #authentication.getPrincipal().getUsername()}"
-             style="float: right">
-            <ul class="flex gap-2">
-                <li><a class="text-gray-500 hover:underline hover:text-[red]"
-                       th:href="@{|/post/modify/${post.id}|}">수정</a></li>
-                <li><a class="text-gray-500 hover:underline hover:text-[red]" th:href="@{|/post/delete/${post.id}|}"
-                       onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;">삭제</a></li>
-            </ul>
+    <div class="flex justify-center">
+        <div style="width: 80%;">
+            <div class="mb-3">
+                <p class="text-5xl">[[${post.subject}]]</p>
+            </div>
+            <div class="justify-between flex">
+                <div><a class="text-gray-500 hover:underline hover:text-[red]"
+                        th:href="@{|/member/${post.memberDto.id}|}">by
+                    [[${post.memberDto.nickname}]]</a></div>
+                <div sec:authorize="isAuthenticated()"
+                     th:if="${post.memberDto.getUsername() == #authentication.getPrincipal().getUsername()}"
+                     style="float: right">
+                    <ul class="flex gap-2">
+                        <li><a class="text-gray-500 hover:underline hover:text-[red]"
+                               th:href="@{|/post/modify/${post.id}|}">수정</a></li>
+                        <li><a class="text-gray-500 hover:underline hover:text-[red]"
+                               th:href="@{|/post/delete/${post.id}|}"
+                               onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;">삭제</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <a class="badge badge-outline badge-lg hover:underline hover:text-[red] mr-3"
+                   th:href="@{|/member/${post.memberDto.id}|}"
+                   th:each="tag : ${post.hashTags}">
+                    #[[${tag.keyword.content}]]</a>
+            </div>
         </div>
-    </div>
-    <div>
-        <a class="badge badge-outline badge-lg hover:underline hover:text-[red] mr-3"
-           th:href="@{|/member/${post.memberDto.id}|}"
-           th:each="tag : ${post.hashTags}">
-            #[[${tag.keyword.content}]]</a>
     </div>
     <div class="flex justify-center">
         <div style="width: 80%;">
